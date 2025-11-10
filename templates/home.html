@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Foto de perfil -->
+<div class="usuario">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+
+    <img src="{% static 'img/marcePerfil.jpg' %}" alt="Dani"> 
+  <span>MarceLondon</span>
+</div>
+
+<div class="admin-panel">
+  <!-- Menú lateral -->
+  <div class="menu-lateral">
+    <button>+ Agregar Producto</button>
+    <a href="{% url 'inventario:lista_productos' %}">Ver Inventario</a>
+    <a href="{% url 'inventario:cuadre_caja' %}">Cuadre de caja</a>
+    <a href="{% url 'ventas:registrar_venta' %}">Registrar venta</a>
+  </div>
+
+  <!-- Formulario -->
+  <div class="formulario">
+    <h3>Bienvenido a </h3>
+  </div>
+
+  <!-- Vista Previa -->
+  <div class="vista-previa">
+    <h3>Servicios</h3>
+    <div class="producto-previo">
+      <div>
+        <strong>Papelería</strong><br>
+        
+      </div>
+    </div>
+    <div class="producto-previo">
+      <div>
+        <strong>Fotocopias</strong><br>
+      </div>
+    </div>
+
+    <div class="producto-previo">
+      <div>
+        <strong>Dulces</strong><br>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+

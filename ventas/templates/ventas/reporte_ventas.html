@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Reporte de Ventas</h1>
+
+<form method="GET">
+  <!-- Renderiza el formulario con el campo de fecha -->
+  {{ form.dia.label_tag }} {{ form.dia }}
+  <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+
+{% if detalles %}
+  <h2>Resultados</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Descuento</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in detalles %}
+      <tr>
+        <td>{{ d.producto.nombre }}</td>
+        <td>{{ d.cantidad }}</td>
+        <td>{{ d.precio }}</td>
+        <td>{{ d.descuento }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No hay resultados para esta fecha.</p>
+{% endif %}
+{% endblock %}

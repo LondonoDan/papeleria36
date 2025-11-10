@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/estiloinventario.css' %}">
+
+  <h1>Registrar Cuadre de Caja</h1>
+  
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+      
+
+    <!-- Campo de solo lectura para mostrar el total de ventas con QR -->
+    <label for="id_total_ventas_qr">Total Ventas con QR del Día</label>
+    <input type="number" id="id_total_ventas_qr" readonly class="form-control">
+    <input type="date" id="id_total_ventas_qr" name="dia_cuadre">
+
+    <!-- Campo de solo lectura para mostrar el total de ventas del día -->
+    <div class="mb-3">
+      <label for="id_total_ventas" class="form-label">Total Ventas del Día</label>
+      <input type="number" id="id_total_ventas" name="total_ventas" readonly class="form-control">
+      <input type="date" id="id_dia_cuadre" name="dia_cuadre">
+
+    </div>
+    <!-- Campo de solo lectura para mostrar el total de efectivo -->
+    <div class="mb-3">
+      <label for="id_total_efectivo" class="form-label">Total Efectivo</label>
+      <input type="number" step="0.01" id="id_total_efectivo" name="total_efectivo" readonly class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="id_valor_entregar" class="form-label">Valor a Entregar</label>
+      <input type="number" step="0.01" id="id_valor_entregar" name="valor_entregar" readonly class="form-control">
+    </div>
+
+ <!-- Campo para guardar el cuadre de caja -->   
+    <button type="submit" class="btn btn-primary">Guardar Cuadre</button>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Lista de inputs para billetes (asegúrate de que estos inputs existan en tu formulario)
+      const billetes = [
+          { id: 'id_billetes_100mil', valor: 100000 },
+          { id: 'id_billetes_50mil',  valor: 50000 },
+          { id: 'id_billetes_20mil',  valor: 20000 },
+          { id: 'id_billetes_10mil',  valor: 10000 },
+          { id: 'id_billetes_5mil',   valor: 5000 },
+          { id: 'id_billetes_2mil',   valor: 2000 },
+          { id: 'id_billetes_1mil',   valor: 1000 }
+      ];
+      // Lista de inputs para monedas
+      const monedas = [
+          { id: 'id_monedas_500', valor: 500 },
+          { id: 'id_monedas_200', valor: 200 },
+          { id: 'id_monedas_100', valor: 100 },
+          { id: 'id_monedas_50',  valor: 50 }
+      ];
+
+      // Referencias a otros inputs
+      const nominaInput = document.getElementById('id_nomina');
+      const totalEfectivoInput = document.getElementById('id_total_efectivo');
+      const valorEntregarInput = document.getElementById('id_valor_entregar');
+
+      // Valor base de caja
+      const BASE_CAJA = 150000;
+
+      // Función para calcular total efectivo a partir de billetes y monedas
+      function calcularTotalEfectivo() {
+          let totalBilletes = 0;
+          let totalMonedas = 0;
+          billetes.forEach(item => {
+              const input = document.getElementById(item.id);
+              const cantidad = parseInt(input ? input.value : 0) || 0;
+              totalBilletes += cantidad * item.valor;
+          });
+          monedas.forEach(item => {
+              const input = document.getElementById(item.id);
+              const cantidad = parseInt(input ? input.value : 0) || 0;
+              totalMonedas += cantidad * item.valor;
+          });
+          return totalBilletes + totalMonedas;
+      }
+
+      // Función para actualizar total efectivo y valor a entregar
+      function actualizarTotales() {
+          const totalEfectivo = calcularTotalEfectivo();
+          totalEfectivoInput.value = totalEfectivo.toFixed(2);
+          const nomina = parseFloat(nominaInput.value) || 0;
+          const valorEntregar = totalEfectivo - BASE_CAJA - nomina;
+          valorEntregarInput.value = valorEntregar.toFixed(2);
+      }
+
+      // Agregar listeners a los inputs de billetes y monedas, así como a valorQR y nómina
+      const allInputIDs = [];
+      billetes.forEach(item => allInputIDs.push(item.id));
+      monedas.forEach(item => allInputIDs.push(item.id));
+      allInputIDs.push('id_nomina');
+
+      allInputIDs.forEach(id => {
+          const input = document.getElementById(id);
+          if (input) {
+              input.addEventListener('input', actualizarTotales);
+          }
+      });
+
+      actualizarTotales();
+    });
+  </script>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Obtén el campo de fecha (dia_cuadre) y el campo donde se mostrará el total
+      const diaInput = document.getElementById('id_dia_cuadre');
+      const totalVentasInput = document.getElementById('id_total_ventas');
+
+      // Función que hace la llamada AJAX para obtener el total de ventas de un día
+      function actualizarTotalVentas(dia) {
+        fetch(`/ventas/api/total_ventas/?dia=${dia}`)
+          .then(response => response.json())
+          .then(data => {
+            totalVentasInput.value = data.total_ventas.toFixed(2);
+          })
+          .catch(error => console.error('Error:', error));
+      }
+
+      if (diaInput) {
+        // Escucha el evento de cambio en el campo de fecha
+        diaInput.addEventListener('change', function() {
+          const diaSeleccionado = diaInput.value;  // Formato: "YYYY-MM-DD"
+          if (diaSeleccionado) {
+            actualizarTotalVentas(diaSeleccionado);
+          } else {
+            totalVentasInput.value = '0';
+          }
+        });
+      }
+    });
+  </script>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Campo para la fecha, suponiendo que ya lo tienes:
+      const diaInput = document.getElementById('id_dia_cuadre');
+      const totalVentasQRInput = document.getElementById('id_total_ventas_qr');
+    
+      function actualizarTotalVentasQR(dia) {
+        fetch(`/ventas/api/total_ventas_qr/?dia=${dia}`)
+          .then(response => response.json())
+          .then(data => {
+             totalVentasQRInput.value = data.total_ventas_qr.toFixed(2);
+          })
+          .catch(error => console.error('Error en AJAX:', error));
+      }
+    
+      if (diaInput) {
+        diaInput.addEventListener('change', function() {
+          const diaSeleccionado = diaInput.value;  // Formato "YYYY-MM-DD"
+          if (diaSeleccionado) {
+             actualizarTotalVentasQR(diaSeleccionado);
+          } else {
+             totalVentasQRInput.value = '0';
+          }
+        });
+      }
+    });
+    </script>
+
+{% endblock %}

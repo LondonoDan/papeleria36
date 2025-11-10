@@ -1,0 +1,116 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+  .admin-panel {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .menu-lateral {
+    background-color: #cc7b89;
+    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
+    
+    padding: 20px;
+    border-radius: 20px;
+    width: 200px;
+    color: white;
+
+  }
+
+  .menu-lateral button,
+  .menu-lateral a {
+    display: block;
+    margin-bottom: 15px;
+    background-color: #FFE4E6;
+    color: rgb(26, 24, 24);
+    padding: 10px;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .menu-lateral a:hover {
+    background-color: #FCCEE8;
+  }
+
+  .formulario {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    flex: 1;
+    max-width: 400px;
+  }
+
+  .formulario input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  .formulario .btns button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .guardar-btn { background-color: #FFCCD3; color: white; }
+  .actualizar-btn { background-color: #007f7f; color: white; }
+  .eliminar-btn { background-color:#FDA5D5; color: white; }
+
+  .vista-previa {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    width: 200px;
+  }
+
+  .producto-previo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+  }
+
+  .producto-previo img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .usuario {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: teal;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .usuario img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+
+
+  

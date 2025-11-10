@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/estiloVentas.css' %}">
+
+  <h1>Registrar Venta</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ venta_form|crispy }}
+
+    <div class="form-group mt-3">
+      <label for="id_total_final">Total Final con Descuento</label>
+      <input type="number" id="id_total_final" class="form-control" readonly>
+    </div>
+
+     <!-- Campo para ingresar el valor recibido por el cliente -->
+     <div class="mb-3">
+      <label for="id_valor_recibido" class="form-label">Valor Recibido</label>
+      <input type="number" step="0.01" id="id_valor_recibido" name="valor_recibido" class="form-control">
+    </div>
+
+    <!-- Campo para mostrar el cambio a devolver -->
+    <div class="mb-3">
+      <label for="id_cambio" class="form-label">Cambio a Devolver</label>
+      <input type="number" step="0.01" id="id_cambio" name="cambio" class="form-control" readonly>
+    </div>
+
+    
+    <h2>Detalle de la Venta</h2>
+    {{ formset.management_form }}
+    {% for form in formset %}
+      <div class="formset-row mb-3">
+        {{ form|crispy }}
+      </div>
+    {% endfor %}
+
+    
+    <button type="submit" class="btn btn-primary mt-3">Registrar Venta</button>
+  </form>
+
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Asumiendo que Django genera los IDs como 'id_total' y 'id_descuento'
+      const totalInput = document.getElementById('id_total');
+      const descuentoInput = document.getElementById('id_descuento');
+      const totalFinalInput = document.getElementById('id_total_final');
+      const cambioInput = document.getElementById('id_cambio');
+      const valorRecibidoInput = document.getElementById('id_valor_recibido');
+      function calcularTotalFinal() {
+        const total = parseFloat(totalInput.value) || 0;
+        const descuento = parseFloat(descuentoInput.value) || 0;
+        const totalFinal = total - (total * descuento / 100);
+        totalFinalInput.value = totalFinal.toFixed(2);
+        
+      }
+
+
+      // Calcular inicialmente
+      calcularTotalFinal();
+
+      // Actualizar cuando se cambie alguno de los dos campos
+      totalInput.addEventListener('input', calcularTotalFinal);
+      descuentoInput.addEventListener('input', calcularTotalFinal);
+
+      function calcularCambio() {
+        // Obtén el total final y el valor recibido, asegurándote de convertirlos a números
+        const totalFinal = parseFloat(totalFinalInput.value) || 0;
+        const valorRecibido = parseFloat(valorRecibidoInput.value) || 0;
+        // Calcula el cambio
+        const cambio = valorRecibido - totalFinal;
+        cambioInput.value = cambio.toFixed(2);
+      }
+
+      // Cada vez que el usuario modifique el valor recibido, recalcula el cambio
+      valorRecibidoInput.addEventListener('input', calcularCambio);
+
+
+      calcularCambio();
+    });
+
+
+    
+  </script>
+{% endblock %}
+
