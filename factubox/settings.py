@@ -16,23 +16,29 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',                # 🌸 Panel moderno con Tailwind
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_select2',
-     # Agregar las apps creadas
+    
+    'django_select2',        # Select2 para formularios
+
+    # Apps creadas por ti
     'inventario',
     'ventas',
-       # ...
+
+    # Formularios bonitos con Bootstrap
     'crispy_forms',
-    'crispy_bootstrap5',  # Si quieres usar Bootstrap 5
-    # ...
+    'crispy_bootstrap5',
 ]
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
 
 
 MIDDLEWARE = [
@@ -74,7 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'Papeleria36',
-        'HOST': 'DESKTOP-I5Q4ON9\\SQLEXPRESS',
+        'HOST': 'DESKTOP-OA0D2DR',
+        'PORT': '',  # o 1433 si lo necesito
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
             'trusted_connection': 'yes',
@@ -82,6 +89,19 @@ DATABASES = {
     }
 }
 
+
+UNFOLD = {
+    "SITE_TITLE": "Papelería36 🌸",
+    "SITE_HEADER": "Panel de Administración",
+    "SITE_URL": "/",  # Puedes cambiarlo si tienes una vista principal
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "LOGIN": {
+        "image": None,  # Aquí puedes poner la URL de tu logo si tienes uno
+        "title": "Bienvenida a Papelería36 🌸",
+        "subtitle": "Sistema de gestión de ventas e inventario",
+    },
+}
 
 
 # Password validation

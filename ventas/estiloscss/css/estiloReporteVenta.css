@@ -1,0 +1,143 @@
+/* Contenedor general */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+/* Enlace de regreso */
+a {
+  display: inline-block;
+  margin: 15px 0;
+  text-decoration: none;
+  color: #d63384;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #c21875;
+}
+
+/* Títulos */
+h1, h2 {
+  text-align: center;
+  color: #d63384;
+  margin-bottom: 20px;
+}
+
+/* Formulario */
+form {
+  max-width: 400px;
+  margin: 0 auto 30px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+form label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+form input {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+}
+
+form input:focus {
+  border-color: #d63384;
+  outline: none;
+  box-shadow: 0 0 6px rgba(214,51,132,0.3);
+}
+
+form button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: #d63384;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background: #c21875;
+}
+
+/* Tabla de resultados */
+table {
+  width: 90%;
+  margin: 0 auto 30px auto;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+table thead {
+  background: #d63384;
+  color: #fff;
+}
+
+table th, table td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+table tr:hover {
+  background-color: #fce4ec; /* rosa muy suave */
+}
+
+/* Mensaje sin resultados */
+p {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+}
+
+
+/* estilo para el boton, cuando se pasa el mouse alumbra*/ 
+button.btn-primary {
+  background-color: #ec407a;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+  transition: left 0.5s ease;
+}
+
+button.btn-primary:hover::after {
+  left: 100%;
+}
+
+button.btn-primary:hover {
+  background-color: #d81b60;
+}

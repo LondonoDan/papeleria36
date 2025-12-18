@@ -1,0 +1,108 @@
+/* Contenedor general */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+/* Enlace de regreso */
+a {
+  display: inline-block;
+  margin: 15px 0;
+  text-decoration: none;
+  color: #d63384;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #c21875;
+}
+
+/* Título principal */
+h1 {
+  text-align: center;
+  color: #d63384;
+  margin-bottom: 25px;
+}
+
+/* Tabla de inventario */
+table {
+  width: 90%;
+  margin: 0 auto 30px auto;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Encabezado */
+table thead {
+  background: #d63384;
+  color: #fff;
+}
+
+table th {
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* Filas */
+table td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* Hover en filas */
+table tbody tr:hover {
+  background-color: #fce4ec; /* rosa muy suave */
+  transition: background 0.3s ease;
+}
+
+/* Mensaje sin productos */
+p {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+  margin-top: 20px;
+}
+
+/* estilo para el boton, cuando se pasa el mouse alumbra*/ 
+button.btn-primary {
+  background-color: #ec407a;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+  transition: left 0.5s ease;
+}
+
+button.btn-primary:hover::after {
+  left: 100%;
+}
+
+button.btn-primary:hover {
+  background-color: #d81b60;
+}

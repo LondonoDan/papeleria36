@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/estiloVentas.css' %}">
-
+<a href="{% url 'home' %}">Regresar al inicio</a>
   <h1>Registrar Venta</h1>
   <form method="post">
     {% csrf_token %}

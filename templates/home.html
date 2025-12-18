@@ -15,10 +15,11 @@
 <div class="admin-panel">
   <!-- Menú lateral -->
   <div class="menu-lateral">
-    <button>+ Agregar Producto</button>
+    <a href="{% url 'inventario:agregar_producto' %}">Agregar Producto</a>
     <a href="{% url 'inventario:lista_productos' %}">Ver Inventario</a>
     <a href="{% url 'inventario:cuadre_caja' %}">Cuadre de caja</a>
     <a href="{% url 'ventas:registrar_venta' %}">Registrar venta</a>
+    <a href="{% url 'ventas:reporte_ventas' %}">Reporte de ventas</a>
   </div>
 
   <!-- Formulario -->

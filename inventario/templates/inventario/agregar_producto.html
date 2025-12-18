@@ -1,9 +1,11 @@
 {# inventario/templates/inventario/agregar_producto.html #}
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-
+{% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/estilosproductos.css' %}">
   <h1>Agregar Producto al Inventario</h1>
+  <a href="{% url 'home' %}">Regresar al inicio</a>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
