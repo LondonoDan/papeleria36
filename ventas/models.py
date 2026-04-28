@@ -31,10 +31,15 @@ class DetalleVenta(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
 
     def save(self, *args, **kwargs):
+        # Si el precio no viene del formulario, lo calculamos automáticamente
+        if not self.precio:
+            self.precio = self.producto.precio * self.cantidad
+
         # Solo descontamos stock al crear un nuevo registro
         if self.pk is None:
             self.producto.cantidad -= self.cantidad
             self.producto.save()
+
         super().save(*args, **kwargs)
 
     def __str__(self):

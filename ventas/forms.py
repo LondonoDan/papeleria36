@@ -21,9 +21,14 @@ class DetalleVentaForm(forms.ModelForm):
             'producto': ModelSelect2Widget(
                 model=Producto,
                 search_fields=['nombre__icontains'],
-                queryset=Producto.objects.filter(nombre__icontains='a')  # solo para probar
+                queryset=Producto.objects.all()
             )
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['precio'].required = False  # ← esto evita el error en rojo
+
 
 
 
@@ -32,9 +37,10 @@ DetalleVentaFormSet = inlineformset_factory(
     parent_model=Venta,
     model=DetalleVenta,
     fields=('producto', 'cantidad', 'precio'),
-    extra=1,   # Número de formularios extra para agregar detalles
+    extra=0,   # al menos un formulario inicial
     can_delete=True
 )
+
 
 #Vista ventas 
 class FiltroDiaForm(forms.Form):

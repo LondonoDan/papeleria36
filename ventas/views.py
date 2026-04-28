@@ -6,6 +6,8 @@ from .forms import FiltroDiaForm  # <-- Importa tu formulario
 from django.http import JsonResponse
 from django.db.models import Sum
 from .models import Venta,DetalleVenta
+from django.http import JsonResponse 
+from inventario.models import Producto
 
 def total_ventas_por_dia(request):
     """
@@ -81,3 +83,13 @@ def reporte_ventas(request):
         'form': form,
         'detalles': detalles
     })
+    
+    
+    #trae el precio del prducto
+def get_precio_producto(request): 
+    producto_id = request.GET.get('id') 
+    try: 
+        producto = Producto.objects.get(id=producto_id) 
+        return JsonResponse({'precio': float(producto.precio)}) 
+    except Producto.DoesNotExist: 
+        return JsonResponse({'precio': 0})

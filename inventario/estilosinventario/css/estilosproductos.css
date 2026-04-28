@@ -113,3 +113,13 @@ button.btn-primary:hover::after {
 button.btn-primary:hover {
   background-color: #d81b60;
 }
+
+/* Enlace de regreso */
+a {
+  display: inline-block;
+  margin: 15px 0;
+  text-decoration: none;
+  color: #d63384;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
