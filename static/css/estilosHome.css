@@ -1,0 +1,232 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+  .admin-panel {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+    
+  }
+
+  .menu-lateral {
+    background-color: #fffcfc;
+    padding: 40px; /* ancho y alto de todo el cuadrado principal */
+    border-radius: 40px; /* ancho y alto de todo el cuadrado principal */
+    width: 200px;
+    color: white;
+    
+  }
+
+  .menu-lateral button,
+  .menu-lateral a {
+    text-decoration: none;
+    border: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 15px;/* ancho y alto de los cuadros pequeños*/
+    border-radius: 15px;/* ancho y alto de los cuadros pequeños**/
+    background-color: #f0f0f0;
+    text-align: center;
+    color: #333;
+  }
+
+  .menu-lateral a:hover {
+    background-color: #FCCEE8;
+  }
+
+  .formulario {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    flex: 1;
+    max-width: 400px;
+    
+  }
+
+  .formulario input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  .formulario .btns button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .guardar-btn { background-color: #FFCCD3; color: white; }
+  .actualizar-btn { background-color: #007f7f; color: white; }
+  .eliminar-btn { background-color:#FDA5D5; color: white; }
+
+
+
+  .vista-previa {
+    background-color: white;
+    padding: 40px; /* ancho y alto de todo el cuadrado principal*/
+    border-radius: 40px; /* ancho y alto de todo el cuadrado principal */
+    width: 200px;
+  }
+
+  .producto-previo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 15px;/* ancho y alto de los cuadros pequeños*/
+    border-radius: 15px;/* ancho y alto de los cuadros pequeños**/
+    background-color: #f0f0f0;
+    text-align: center;
+    
+
+  }
+
+  
+
+   /* estilos usuario lateral */
+  .usuario {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: rgb(243, 247, 247);
+    color: rgb(15, 15, 15);
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .usuario img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+
+
+  /* calendario */
+  /* Contenedor del calendario */
+.calendario {
+  background: linear-gradient(135deg, #ff7eb9, #8e44ad);
+  padding: 20px;
+  border-radius: 15px;
+  color: white;
+  max-width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Encabezado del calendario */
+.calendario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.calendario-header button {
+  background: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 8px;
+  color: #8e44ad;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.calendario-header button:hover {
+  background: #8e44ad;
+  color: white;
+}
+
+/* Grid de días */
+.calendario-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+/* Estilo de cada día */
+.dia {
+  background: white;
+  color: #8e44ad;
+  padding: 12px;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.dia:hover {
+  background: #ff7eb9;
+  color: white;
+}
+
+/* Día actual resaltado */
+.dia.hoy {
+  background: #ff7eb9;
+  color: white;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
+/* Espacios vacíos */
+.dia.empty {
+  background: transparent;
+}
+
+
+
+/* Botón agregar*/
+.btn-Agregar{
+  display: flex;
+  align-items: center;
+  gap: 8px; /* espacio entre imagen y texto */
+  background: white;
+  color: #8e44ad;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn-Agregar:hover {
+  background: #ff7eb9;
+  color: white;
+}
+
+
+/* css de los iconos*/
+/* Imagen dentro de los cuadros pequeños*/
+.icono-btn-lateral {
+  width: 40px;   /* ancho pequeño */
+  height: 45px;  /* alto pequeño */
+  object-fit: contain; /* mantiene proporción */
+}
+
+
+.icono-btn-img{
+  width: 50px;   /* ancho pequeño */
+  height: 50px;  /* alto pequeño */
+  object-fit: contain; /* mantiene proporción */
+}
+

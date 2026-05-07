@@ -1,14 +1,26 @@
-{% extends "base.html" %}
+{% extends "index.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/estiloVentas.css' %}">
 <a href="{% url 'home' %}">Regresar al inicio</a>
   <h1>Registrar Venta</h1>
+  
+
   <form method="post">
     {% csrf_token %}
+    <!-- formulario para el detalle de la venta DetalleVentaForm-->
+     {{ formset.management_form }}
+    {% for form in formset %}
+      <div class="formset-row mb-3">
+        {{ form|crispy }}
+      </div>
+    {% endfor %}
+
+    <!-- formulario para total, metodo de pago y descuento VentaForm -->
     {{ venta_form|crispy }}
 
+    <!--total final-->
     <div class="form-group mt-3">
       <label for="id_total_final">Total Final con Descuento</label>
       <input type="number" id="id_total_final" class="form-control" readonly>
@@ -26,21 +38,12 @@
       <input type="number" step="0.01" id="id_cambio" name="cambio" class="form-control" readonly>
     </div>
 
-    
-    <h2>Detalle de la Venta</h2>
-    {{ formset.management_form }}
-    {% for form in formset %}
-      <div class="formset-row mb-3">
-        {{ form|crispy }}
-      </div>
-    {% endfor %}
-
-    
+  <!-- campo para registrar la venta-->
     <button type="submit" class="btn btn-primary mt-3">Registrar Venta</button>
   </form>
 
 
-
+<!-- logica para descontar y dar el valor final a pagar-->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Asumiendo que Django genera los IDs como 'id_total' y 'id_descuento'
@@ -80,9 +83,9 @@
 
       calcularCambio();
     });
-
-
     
-  </script>
+</script>
+
+
 {% endblock %}
 

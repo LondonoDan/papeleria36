@@ -1,0 +1,31 @@
+/* ===== Encabezado ===== */
+header {
+  text-align: center;              /* Centra todo el contenido */
+  padding: 30px 20px;              /* Espaciado interno */
+  background: rgba(255, 255, 255, 0.15); /* Fondo semitransparente */
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif; /* Fuente manuscrita elegante */
+  font-size: 48px;                     /* Grande y vistosa */
+  font-weight: 550;                   /* Negrita */
+  color: rgb(12, 12, 12);                       /* Texto negro */
+  margin: 0;                          /* Quita márgenes extra */
+  letter-spacing: 2px;                /* Espaciado entre letras */
+}
+
+
+
+
+  /* Footer */
+footer {
+  background: rgba(255, 255, 255, 0.15);
+  text-align: center;
+  padding: 15px;
+  color: rgb(12, 12, 12);
+  border-top: 2px solid rgba(255,255,255,0.3);
+}
+
+
+

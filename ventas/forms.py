@@ -21,9 +21,9 @@ class DetalleVentaForm(forms.ModelForm):
             'producto': ModelSelect2Widget(
                 model=Producto,
                 search_fields=['nombre__icontains'],
-                queryset=Producto.objects.filter(nombre__icontains='a')  # solo para probar
-            )
-        }
+        )
+    }
+
 
 
 
@@ -43,3 +43,5 @@ class FiltroDiaForm(forms.Form):
         widget=forms.DateInput(attrs={'type': 'date'}),
         label="Filtrar por día"
     )
+
+    

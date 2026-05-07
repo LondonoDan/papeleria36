@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "index.html" %}
 {% load static %}
 
 {% block content %}
@@ -6,7 +6,8 @@
 
 <!-- Foto de perfil -->
 <div class="usuario">
-    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/estilosHome.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <img src="{% static 'img/marcePerfil.jpg' %}" alt="Dani"> 
   <span>MarceLondon</span>
@@ -15,40 +16,112 @@
 <div class="admin-panel">
   <!-- Menú lateral -->
   <div class="menu-lateral">
-    <a href="{% url 'inventario:agregar_producto' %}">Agregar Producto</a>
-    <a href="{% url 'inventario:lista_productos' %}">Ver Inventario</a>
-    <a href="{% url 'inventario:cuadre_caja' %}">Cuadre de caja</a>
-    <a href="{% url 'ventas:registrar_venta' %}">Registrar venta</a>
-    <a href="{% url 'ventas:reporte_ventas' %}">Reporte de ventas</a>
+    <a href="{% url 'inventario:agregar_producto' %}" class="btn-Agregar">
+      <img src="{% static 'img/producto.png' %}" alt="Agregar" class="icono-btn-lateral">
+      Agregar Producto
+    </a>
+
+    <a href="{% url 'inventario:lista_productos' %}">
+      <img src="{% static 'img/inventario.png' %}" alt="Agregar" class="icono-btn-lateral">
+      Ver Inventario
+    </a>
+
+    <a href="{% url 'inventario:cuadre_caja' %}">
+      <img src="{% static 'img/cash.png' %}" alt="Agregar" class="icono-btn-lateral">
+      Cuadre de caja
+    </a>
+
+    <a href="{% url 'ventas:registrar_venta' %}">
+      <img src="{% static 'img/shop.png' %}" alt="Agregar" class="icono-btn-lateral">
+      Registrar venta</a>
+
+    <a href="{% url 'ventas:reporte_ventas' %}">
+      <img src="{% static 'img/analisis.png' %}" alt="Agregar" class="icono-btn-lateral">
+      Reporte de ventas
+    </a>
   </div>
 
-  <!-- Formulario -->
-  <div class="formulario">
-    <h3>Bienvenido a </h3>
+
+  <!-- calendario -->
+  <div class="calendario">
+  <div class="calendario-header">
+    <button id="prev">◀</button>
+    <span id="mes-anio"></span>
+    <button id="next">▶</button>
   </div>
+  <div class="calendario-grid" id="dias"></div>
+</div>
+
+<script>
+  let fechaActual = new Date();
+
+  function renderCalendario(fecha) {
+    const diasContainer = document.getElementById("dias");
+    const mesAnio = document.getElementById("mes-anio");
+    diasContainer.innerHTML = "";
+
+    const mes = fecha.getMonth();
+    const anio = fecha.getFullYear();
+
+    mesAnio.textContent = fecha.toLocaleString("es-ES", { month: "long", year: "numeric" });
+
+    const primerDia = new Date(anio, mes, 1).getDay();
+    const diasMes = new Date(anio, mes + 1, 0).getDate();
+
+    // Espacios vacíos antes del primer día
+    for (let i = 0; i < primerDia; i++) {
+      const empty = document.createElement("div");
+      empty.className = "dia empty";
+      diasContainer.appendChild(empty);
+    }
+
+    // Días del mes
+    for (let d = 1; d <= diasMes; d++) {
+      const dia = document.createElement("div");
+      dia.className = "dia";
+      dia.textContent = d;
+
+      // Ejemplo: marcar el día actual
+      if (d === new Date().getDate() && mes === new Date().getMonth() && anio === new Date().getFullYear()) {
+        dia.classList.add("hoy");
+      }
+
+      diasContainer.appendChild(dia);
+    }
+  }
+
+  document.getElementById("prev").onclick = () => {
+    fechaActual.setMonth(fechaActual.getMonth() - 1);
+    renderCalendario(fechaActual);
+  };
+
+  document.getElementById("next").onclick = () => {
+    fechaActual.setMonth(fechaActual.getMonth() + 1);
+    renderCalendario(fechaActual);
+  };
+
+  renderCalendario(fechaActual);
+</script>
+
 
   <!-- Vista Previa -->
   <div class="vista-previa">
-    <h3>Servicios</h3>
+    <h3>Nuestros Servicios</h3>
     <div class="producto-previo">
-      <div>
-        <strong>Papelería</strong><br>
-        
-      </div>
-    </div>
-    <div class="producto-previo">
-      <div>
-        <strong>Fotocopias</strong><br>
-      </div>
+      <img src="{% static 'img/branding.png' %}" alt="papelería" class="icono-btn-img">
+        <strong>Papelería</strong><br> 
     </div>
 
     <div class="producto-previo">
-      <div>
-        <strong>Dulces</strong><br>
-        
-      </div>
-      
+      <img src="{% static 'img/printing.png' %}" alt="fotocopias" class="icono-btn-img">
+        <strong>Fotocopias</strong><br>
     </div>
+
+    <div class="producto-previo">
+        <img src="{% static 'img/candies.png' %}" alt="dulces" class="icono-btn-img">
+        <strong>Dulces</strong><br>   
+    </div>
+    
   </div>
 </div>
 

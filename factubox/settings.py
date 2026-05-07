@@ -80,7 +80,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'Papeleria36',
-        'HOST': 'DESKTOP-OA0D2DR',
+        'HOST': r'DESKTOP-I5Q4ON9\SQLEXPRESS',
         'PORT': '',  # o 1433 si lo necesito
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
