@@ -138,7 +138,7 @@ USE_TZ = True
 
 # todos los estilos  files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-
+DEBUG = True
 STATIC_URL = '/static/'
 import os
 STATICFILES_DIRS = [

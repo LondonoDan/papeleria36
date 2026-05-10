@@ -32,19 +32,4 @@ class DetalleVenta(models.Model):
     cantidad = models.IntegerField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def save(self, *args, **kwargs):
-        # Si no tiene precio asignado, lo tomamos del producto
-        if not self.precio and self.producto:
-            self.precio = self.producto.precio
-
-        # Solo descontamos stock al crear un nuevo registro
-        if self.pk is None:
-            self.producto.cantidad -= self.cantidad
-            self.producto.save()
-
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.producto.nombre} x {self.cantidad}"       
-
    

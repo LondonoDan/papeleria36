@@ -24,19 +24,54 @@
     <div class="form-group mt-3">
       <label for="id_total_final">Total Final con Descuento</label>
       <input type="number" id="id_total_final" class="form-control" readonly>
-    </div>
+<h1>Registrar Venta</h1>
 
-     <!-- Campo para ingresar el valor recibido por el cliente -->
-     <div class="mb-3">
-      <label for="id_valor_recibido" class="form-label">Valor Recibido</label>
-      <input type="number" step="0.01" id="id_valor_recibido" name="valor_recibido" class="form-control">
-    </div>
+<form method="post">
+  {% csrf_token %}
+  {{ venta_form|crispy }}
 
-    <!-- Campo para mostrar el cambio a devolver -->
-    <div class="mb-3">
-      <label for="id_cambio" class="form-label">Cambio a Devolver</label>
-      <input type="number" step="0.01" id="id_cambio" name="cambio" class="form-control" readonly>
+  <div class="form-group mt-3">
+    <label for="id_total_final">Total Final con Descuento</label>
+    <input type="number" id="id_total_final" class="form-control" readonly>
+  </div>
+
+  <div class="mb-3">
+    <label for="id_valor_recibido" class="form-label">Valor Recibido</label>
+    <input type="number" step="0.01" id="id_valor_recibido" name="valor_recibido" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <label for="id_cambio" class="form-label">Cambio a Devolver</label>
+    <input type="number" step="0.01" id="id_cambio" name="cambio" class="form-control" readonly>
+  </div>
+
+  <!-- detalle de la venta -->
+  <h2>Detalle de la Venta</h2>
+{{ formset.management_form }}
+<div id="formset-container">
+  {% for form in formset %}
+    <div class="formset-row mb-3">
+      {{ form|crispy }}
     </div>
+  {% endfor %}
+</div>
+
+<!-- Plantilla oculta -->
+<div id="empty-form" class="formset-row mb-3 d-none">
+  {{ formset.empty_form|crispy }}
+</div>
+
+<button type="button" id="add-form" class="btn btn-secondary mt-2">+ Agregar producto</button>
+<button type="submit" class="btn btn-primary mt-3">Registrar Venta</button>
+</form>
+  let productos = []; <!-- array para lista temporal de productos -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // --- Calcular total y cambio ---
+  const totalFinalInput = document.getElementById('id_total_final');
+  const descuentoInput = document.getElementById('id_descuento');
+  const cambioInput = document.getElementById('id_cambio');
+  const valorRecibidoInput = document.getElementById('id_valor_recibido');
 
   <!-- campo para registrar la venta-->
     <button type="submit" class="btn btn-primary mt-3">Registrar Venta</button>
@@ -84,8 +119,54 @@
       calcularCambio();
     });
     
+  function calcularTotalFinal() {
+    let total = 0;
+    document.querySelectorAll('[name$="precio"]').forEach(precioInput => {
+      const name = precioInput.name; // ej: form-0-precio
+      const formIndex = name.match(/form-(\d+)-/)[1];
+      const cantidadInput = document.querySelector(`[name="form-${formIndex}-cantidad"]`);
+      const precio = parseFloat(precioInput.value) || 0;
+      const cantidad = parseFloat(cantidadInput.value) || 0;
+      total += precio * cantidad;
+    });
+    const descuento = parseFloat(descuentoInput.value) || 0;
+    const totalFinal = total - (total * descuento / 100);
+    totalFinalInput.value = totalFinal.toFixed(2);
+    calcularCambio();
+  }
+
+  function calcularCambio() {
+    const totalFinal = parseFloat(totalFinalInput.value) || 0;
+    const valorRecibido = parseFloat(valorRecibidoInput.value) || 0;
+    const cambio = valorRecibido - totalFinal;
+    cambioInput.value = cambio.toFixed(2);
+  }
+
+  valorRecibidoInput.addEventListener('input', calcularCambio);
+  descuentoInput.addEventListener('input', calcularTotalFinal);
+
+  // --- AJAX para traer precio del producto ---
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.name.includes('producto')) {
+      const productoId = e.target.value;
+      const formIndex = e.target.name.match(/form-(\d+)-/)[1];
+      const precioInput = document.querySelector(`[name="form-${formIndex}-precio"]`);
+      fetch(`/ventas/get_precio_producto/?id=${productoId}`)
+        .then(response => response.json())
+        .then(data => {
+          precioInput.value = data.precio;
+          calcularTotalFinal();
+        });
+    }
+    if (e.target && e.target.name.includes('cantidad')) {
+      calcularTotalFinal();
+    }
+  });
+
+  // --- Botón para agregar más productos ---
+});
+
 </script>
 
 
 {% endblock %}
-

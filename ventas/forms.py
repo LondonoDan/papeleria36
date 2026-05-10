@@ -21,10 +21,12 @@ class DetalleVentaForm(forms.ModelForm):
             'producto': ModelSelect2Widget(
                 model=Producto,
                 search_fields=['nombre__icontains'],
+ 
         )
     }
 
 
+    
 
 
 # Creamos un inline formset para DetalleVenta asociado a Venta.
@@ -32,9 +34,10 @@ DetalleVentaFormSet = inlineformset_factory(
     parent_model=Venta,
     model=DetalleVenta,
     fields=('producto', 'cantidad', 'precio'),
-    extra=1,   # Número de formularios extra para agregar detalles
+    extra=0,   # al menos un formulario inicial
     can_delete=True
 )
+
 
 #Vista ventas 
 class FiltroDiaForm(forms.Form):

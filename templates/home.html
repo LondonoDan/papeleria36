@@ -1,15 +1,22 @@
+
 {% extends "index.html" %}
 {% load static %}
+{% extends "base.html" %} 
+{% load static %} 
 
 {% block content %}
 
-
 <!-- Foto de perfil -->
 <div class="usuario">
+
     <link rel="stylesheet" href="{% static 'css/estilosHome.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <img src="{% static 'img/marcePerfil.jpg' %}" alt="Dani"> 
+
+  <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
+  <img src="{% static 'img/marcePerfil.jpg' %}" alt="Dani" />
+
   <span>MarceLondon</span>
 </div>
 
@@ -42,11 +49,18 @@
   </div>
 
 
+
   <!-- calendario -->
   <div class="calendario">
   <div class="calendario-header">
     <button id="prev">◀</button>
     <span id="mes-anio"></span>
+
+  <!-- Empieza el calendario -->
+  <div class="calendar-container">
+    <button id="prev">◀</button>
+    <div id="month-year"></div>
+
     <button id="next">▶</button>
   </div>
   <div class="calendario-grid" id="dias"></div>
@@ -104,17 +118,90 @@
 </script>
 
 
-  <!-- Vista Previa -->
+  <div id="calendar"></div>
+
+  <script>
+    let currentDate = new Date();
+
+    function renderCalendar(date) {
+      const calendar = document.getElementById("calendar");
+      const monthYear = document.getElementById("month-year");
+      calendar.innerHTML = "";
+
+      const year = date.getFullYear();
+      const month = date.getMonth();
+
+      monthYear.textContent = date.toLocaleString("es-ES", {
+        month: "long",
+        year: "numeric",
+      });
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      // Rellenar espacios antes del primer día
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement("div");
+        empty.className = "day empty";
+        calendar.appendChild(empty);
+      }
+
+      // Crear los días
+      for (let d = 1; d <= daysInMonth; d++) {
+        const day = document.createElement("div");
+        day.className = "day";
+        day.textContent = d;
+
+        // Acción: marcar el día seleccionado
+        day.onclick = () => {
+          // quitar selección previa
+          document
+            .querySelectorAll(".day")
+            .forEach((el) => el.classList.remove("selected"));
+          // marcar el clicado
+          day.classList.add("selected");
+        };
+
+        calendar.appendChild(day);
+      }
+    }
+
+    document.getElementById("prev").onclick = () => {
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      renderCalendar(currentDate);
+    };
+
+    document.getElementById("next").onclick = () => {
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      renderCalendar(currentDate);
+    };
+
+    renderCalendar(currentDate);
+  </script>
+
+  <!-- termina el calendario-->
+
+  <!-- Vista Previa de los servicios que se prestan-->
   <div class="vista-previa">
     <h3>Nuestros Servicios</h3>
     <div class="producto-previo">
+
       <img src="{% static 'img/branding.png' %}" alt="papelería" class="icono-btn-img">
         <strong>Papelería</strong><br> 
-    </div>
 
+      <div><strong>Papelería</strong><br /></div>
+    </div>
     <div class="producto-previo">
+      <div><strong>Fotocopias</strong><br /></div>
+
+    </div>
+    <div class="producto-previo">
+
       <img src="{% static 'img/printing.png' %}" alt="fotocopias" class="icono-btn-img">
         <strong>Fotocopias</strong><br>
+
+      <div><strong>Dulces</strong><br /></div>
+
     </div>
 
     <div class="producto-previo">
@@ -126,4 +213,3 @@
 </div>
 
 {% endblock %}
-
