@@ -24,17 +24,15 @@ class DetalleVentaForm(forms.ModelForm):
  
         )
     }
-
-
-    
-
+        
 
 # Creamos un inline formset para DetalleVenta asociado a Venta.
 DetalleVentaFormSet = inlineformset_factory(
     parent_model=Venta,
     model=DetalleVenta,
+    form=DetalleVentaForm,   # usamos el form personalizado
     fields=('producto', 'cantidad', 'precio'),
-    extra=0,   # al menos un formulario inicial
+    extra=1,   # al menos un formulario inicial
     can_delete=True
 )
 

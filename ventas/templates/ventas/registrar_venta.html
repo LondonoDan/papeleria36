@@ -1,172 +1,52 @@
-{% extends "index.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
-{% block content %}
 <link rel="stylesheet" href="{% static 'css/estiloVentas.css' %}">
-<a href="{% url 'home' %}">Regresar al inicio</a>
-  <h1>Registrar Venta</h1>
-  
 
-  <form method="post">
-    {% csrf_token %}
-    <!-- formulario para el detalle de la venta DetalleVentaForm-->
-     {{ formset.management_form }}
-    {% for form in formset %}
-      <div class="formset-row mb-3">
-        {{ form|crispy }}
-      </div>
-    {% endfor %}
+<h2>Registrar Venta</h2>
 
-    <!-- formulario para total, metodo de pago y descuento VentaForm -->
-    {{ venta_form|crispy }}
-
-    <!--total final-->
-    <div class="form-group mt-3">
-      <label for="id_total_final">Total Final con Descuento</label>
-      <input type="number" id="id_total_final" class="form-control" readonly>
-<h1>Registrar Venta</h1>
-
-<form method="post">
-  {% csrf_token %}
-  {{ venta_form|crispy }}
-
-  <div class="form-group mt-3">
-    <label for="id_total_final">Total Final con Descuento</label>
-    <input type="number" id="id_total_final" class="form-control" readonly>
-  </div>
-
-  <div class="mb-3">
-    <label for="id_valor_recibido" class="form-label">Valor Recibido</label>
-    <input type="number" step="0.01" id="id_valor_recibido" name="valor_recibido" class="form-control">
-  </div>
-
-  <div class="mb-3">
-    <label for="id_cambio" class="form-label">Cambio a Devolver</label>
-    <input type="number" step="0.01" id="id_cambio" name="cambio" class="form-control" readonly>
-  </div>
-
-  <!-- detalle de la venta -->
-  <h2>Detalle de la Venta</h2>
-{{ formset.management_form }}
-<div id="formset-container">
-  {% for form in formset %}
-    <div class="formset-row mb-3">
-      {{ form|crispy }}
-    </div>
-  {% endfor %}
-</div>
-
-<!-- Plantilla oculta -->
-<div id="empty-form" class="formset-row mb-3 d-none">
-  {{ formset.empty_form|crispy }}
-</div>
-
-<button type="button" id="add-form" class="btn btn-secondary mt-2">+ Agregar producto</button>
-<button type="submit" class="btn btn-primary mt-3">Registrar Venta</button>
+<form method="post" id="ventaForm">
+    {{ formset.management_form }} <!-- Permite que Django sepa cuántos formularios debe procesar al recibir el POST.-->
+    {% csrf_token %} <!-- token de seguridad-->
+    <div id="productos">
+        {% for form in formset %}
+            <div class="producto-form"> <!-- formulario productos,precio y cantidad-->
+                {{ form|crispy }}
+            </div>
+            {{ venta_form|crispy }}<!-- formulario total-->
+        {% endfor %}
+    </div> 
+    <button type="button" id="addProducto" class="btn btn-info">Agregar Producto</button>
+    <button type="submit" class="btn btn-success">Registrar Venta</button>
 </form>
-  let productos = []; <!-- array para lista temporal de productos -->
+
+<hr>
+<h3>Total a pagar: {{ total }}</h3>
+<h3>Cambio: {{ cambio }}</h3>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // --- Calcular total y cambio ---
-  const totalFinalInput = document.getElementById('id_total_final');
-  const descuentoInput = document.getElementById('id_descuento');
-  const cambioInput = document.getElementById('id_cambio');
-  const valorRecibidoInput = document.getElementById('id_valor_recibido');
-
-  <!-- campo para registrar la venta-->
-    <button type="submit" class="btn btn-primary mt-3">Registrar Venta</button>
-  </form>
-
-
-<!-- logica para descontar y dar el valor final a pagar-->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Asumiendo que Django genera los IDs como 'id_total' y 'id_descuento'
-      const totalInput = document.getElementById('id_total');
-      const descuentoInput = document.getElementById('id_descuento');
-      const totalFinalInput = document.getElementById('id_total_final');
-      const cambioInput = document.getElementById('id_cambio');
-      const valorRecibidoInput = document.getElementById('id_valor_recibido');
-      function calcularTotalFinal() {
-        const total = parseFloat(totalInput.value) || 0;
-        const descuento = parseFloat(descuentoInput.value) || 0;
-        const totalFinal = total - (total * descuento / 100);
-        totalFinalInput.value = totalFinal.toFixed(2);
-        
-      }
-
-
-      // Calcular inicialmente
-      calcularTotalFinal();
-
-      // Actualizar cuando se cambie alguno de los dos campos
-      totalInput.addEventListener('input', calcularTotalFinal);
-      descuentoInput.addEventListener('input', calcularTotalFinal);
-
-      function calcularCambio() {
-        // Obtén el total final y el valor recibido, asegurándote de convertirlos a números
-        const totalFinal = parseFloat(totalFinalInput.value) || 0;
-        const valorRecibido = parseFloat(valorRecibidoInput.value) || 0;
-        // Calcula el cambio
-        const cambio = valorRecibido - totalFinal;
-        cambioInput.value = cambio.toFixed(2);
-      }
-
-      // Cada vez que el usuario modifique el valor recibido, recalcula el cambio
-      valorRecibidoInput.addEventListener('input', calcularCambio);
-
-
-      calcularCambio();
-    });
-    
-  function calcularTotalFinal() {
-    let total = 0;
-    document.querySelectorAll('[name$="precio"]').forEach(precioInput => {
-      const name = precioInput.name; // ej: form-0-precio
-      const formIndex = name.match(/form-(\d+)-/)[1];
-      const cantidadInput = document.querySelector(`[name="form-${formIndex}-cantidad"]`);
-      const precio = parseFloat(precioInput.value) || 0;
-      const cantidad = parseFloat(cantidadInput.value) || 0;
-      total += precio * cantidad;
-    });
-    const descuento = parseFloat(descuentoInput.value) || 0;
-    const totalFinal = total - (total * descuento / 100);
-    totalFinalInput.value = totalFinal.toFixed(2);
-    calcularCambio();
-  }
-
-  function calcularCambio() {
-    const totalFinal = parseFloat(totalFinalInput.value) || 0;
-    const valorRecibido = parseFloat(valorRecibidoInput.value) || 0;
-    const cambio = valorRecibido - totalFinal;
-    cambioInput.value = cambio.toFixed(2);
-  }
-
-  valorRecibidoInput.addEventListener('input', calcularCambio);
-  descuentoInput.addEventListener('input', calcularTotalFinal);
-
-  // --- AJAX para traer precio del producto ---
-  document.addEventListener('change', function(e) {
-    if (e.target && e.target.name.includes('producto')) {
-      const productoId = e.target.value;
-      const formIndex = e.target.name.match(/form-(\d+)-/)[1];
-      const precioInput = document.querySelector(`[name="form-${formIndex}-precio"]`);
-      fetch(`/ventas/get_precio_producto/?id=${productoId}`)
-        .then(response => response.json())
-        .then(data => {
-          precioInput.value = data.precio;
-          calcularTotalFinal();
+$(document).on('change', 'select[name$="producto"]', function() {
+    var productoId = $(this).val();
+    var precioInput = $(this).closest('.producto-form').find('input[name$="precio"]');
+    if(productoId){
+        $.getJSON("{% url 'ventas:get_precio_producto' %}", {producto_id: productoId}, function(data){
+            if(data.precio){
+                precioInput.val(data.precio);
+            }
         });
     }
-    if (e.target && e.target.name.includes('cantidad')) {
-      calcularTotalFinal();
-    }
-  });
-
-  // --- Botón para agregar más productos ---
 });
 
+// Botón para agregar más productos
+$('#addProducto').click(function(){
+    var formIndex = $('#productos .producto-form').length;
+    var newForm = $('#productos .producto-form:first').clone(true);
+    newForm.find(':input').each(function(){
+        var name = $(this).attr('name').replace(/-\d+-/, '-' + formIndex + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('');
+    });
+    $('#productos').append(newForm);
+    $('#id_detalleventa_set-TOTAL_FORMS').val(formIndex+1);
+});
 </script>
-
-
-{% endblock %}

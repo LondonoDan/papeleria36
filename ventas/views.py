@@ -1,95 +1,65 @@
-# ventas/VISTA de ventas.py
 from django.shortcuts import render, redirect
-from django.contrib import messages
-from .forms import VentaForm, DetalleVentaFormSet
-from .forms import FiltroDiaForm  # <-- Importa tu formulario
 from django.http import JsonResponse
-from django.db.models import Sum
-from .models import Venta,DetalleVenta
-from django.http import JsonResponse 
+from .forms import VentaForm, DetalleVentaFormSet
 from inventario.models import Producto
-
-def total_ventas_por_dia(request):
-    """
-    Retorna el total de ventas para la fecha dada en formato JSON.
-    Ejemplo: /ventas/api/total_ventas/?dia=2025-02-28
-    """
-    dia = request.GET.get('dia')
-    if not dia:
-        return JsonResponse({'total_ventas': 0})
-    total = (Venta.objects
-             .filter(fecha__date=dia)
-             .aggregate(suma=Sum('total'))['suma'] or 0)
-    return JsonResponse({'total_ventas': float(total)})
-
-
-
-#Registro de venta
+from .models import Venta
+from .forms import FiltroDiaForm
 
 def registrar_venta(request):
     if request.method == 'POST':
         venta_form = VentaForm(request.POST)
         formset = DetalleVentaFormSet(request.POST)
+
         if venta_form.is_valid() and formset.is_valid():
-            venta = venta_form.save()  # Guarda la venta
-            formset.instance = venta   # Asigna la venta a cada formulario del formset
-            formset.save()             # Guarda todos los detalles
-            messages.success(request, "Venta registrada correctamente.")
-            return redirect('ventas:registrar_venta')  # Redirige a la vista de registrar una venta con un mensaje
-        else:
-            messages.error(request, "Por favor, corrige los errores en el formulario.")
+            venta = venta_form.save(commit=False)
+            venta.save()
+            detalles = formset.save(commit=False)
+            for detalle in detalles:
+                detalle.venta = venta
+                detalle.precio = detalle.producto.precio  # asignar precio automáticamente
+                detalle.save()
+            venta.calcular_total()
+            return redirect('ventas:reporte_ventas')
     else:
         venta_form = VentaForm()
         formset = DetalleVentaFormSet()
-    
-    context = {
+
+    return render(request, 'ventas/registrar_venta.html', {
         'venta_form': venta_form,
-        'formset': formset,
-    }
-    return render(request, 'ventas/registrar_venta.html', context)
+        'formset': formset
+    })
 
 
-
-def total_ventas_qr_por_dia(request):
-    """
-    Retorna el total de ventas realizadas con método de pago 'QR' para la fecha dada en formato JSON.
-    Ejemplo: /ventas/api/total_ventas_qr/?dia=2025-02-28
-    """
-    dia = request.GET.get('dia')
-    if not dia:
-        return JsonResponse({'total_ventas_qr': 0})
-    
-    total = (Venta.objects
-             .filter(fecha__date=dia, metodo_pago='QR')
-             .aggregate(suma=Sum('total'))['suma'] or 0)
-    
-    return JsonResponse({'total_ventas_qr': float(total)})
-
-#filtra ventas realizadas por día
 def reporte_ventas(request):
+    from .models import Venta
+    ventas = Venta.objects.all().order_by('-fecha')
+    return render(request, 'ventas/reporte_ventas.html', {'ventas': ventas})
+
+
+# AJAX para obtener precio del producto
+def get_precio_producto(request):
+    producto_id = request.GET.get('producto_id')
+    try:
+        producto = Producto.objects.get(id=producto_id)
+        return JsonResponse({'precio': str(producto.precio)})
+    except Producto.DoesNotExist:
+        return JsonResponse({'error': 'Producto no encontrado'}, status=404)
+
+
+
+def ventas_list(request):
     form = FiltroDiaForm(request.GET or None)
-    detalles = []
+    detalles = DetalleVenta.objects.all()
 
     if form.is_valid():
         dia = form.cleaned_data.get('dia')
         if dia:
-            # Filtra los detalles de venta cuyo día coincida con la fecha de la venta
-            detalles = DetalleVenta.objects.filter(venta__fecha__date=dia)
-        else:
-            # Si no se elige fecha, puedes mostrar todos o ninguno, tú decides
-            detalles = DetalleVenta.objects.all()
+            # Filtramos las ventas por fecha
+            ventas = Venta.objects.filter(fecha__date=dia)
+            # Filtramos los detalles asociados a esas ventas
+            detalles = DetalleVenta.objects.filter(venta__in=ventas)
 
-    return render(request, 'ventas/reporte_ventas.html', {
+    return render(request, 'ventas/ventas_list.html', {
         'form': form,
         'detalles': detalles
     })
-    
-    
-    #trae el precio del prducto
-def get_precio_producto(request): 
-    producto_id = request.GET.get('id') 
-    try: 
-        producto = Producto.objects.get(id=producto_id) 
-        return JsonResponse({'precio': float(producto.precio)}) 
-    except Producto.DoesNotExist: 
-        return JsonResponse({'precio': 0})
