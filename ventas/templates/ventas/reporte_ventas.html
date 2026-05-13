@@ -1,17 +1,16 @@
 {% extends "index.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/estiloReporteVenta.css' %}">
 <a href="{% url 'home' %}">Regresar al inicio</a>
-<h1>Reporte de Ventas</h1>
 
+<h1>Reporte de Ventas</h1>
 <form method="GET">
-  <!-- Renderiza el formulario con el campo de fecha -->
-  {{ form.dia.label_tag }} {{ form.dia }}
+  {{ form|crispy }}
   <button type="submit" class="btn btn-primary">Filtrar</button>
 </form>
-
 {% if detalles %}
   <h2>Resultados</h2>
   <table class="table table-striped">

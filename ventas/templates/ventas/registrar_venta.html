@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'css/estiloVentas.css' %}">
 
 <h2>Registrar Venta</h2>
-
+<a href="{% url 'home' %}">Regresar al inicio</a>
 <form method="post" id="ventaForm">
     {{ formset.management_form }} <!-- Permite que Django sepa cuántos formularios debe procesar al recibir el POST.-->
     {% csrf_token %} <!-- token de seguridad-->
@@ -20,23 +20,9 @@
 </form>
 
 <hr>
-<h3>Total a pagar: {{ total }}</h3>
-<h3>Cambio: {{ cambio }}</h3>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).on('change', 'select[name$="producto"]', function() {
-    var productoId = $(this).val();
-    var precioInput = $(this).closest('.producto-form').find('input[name$="precio"]');
-    if(productoId){
-        $.getJSON("{% url 'ventas:get_precio_producto' %}", {producto_id: productoId}, function(data){
-            if(data.precio){
-                precioInput.val(data.precio);
-            }
-        });
-    }
-});
-
 // Botón para agregar más productos
 $('#addProducto').click(function(){
     var formIndex = $('#productos .producto-form').length;

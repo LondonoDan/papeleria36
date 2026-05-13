@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .forms import VentaForm, DetalleVentaFormSet
+from .forms import VentaForm, DetalleVentaFormSet,DetalleVenta
 from inventario.models import Producto
 from .models import Venta
 from .forms import FiltroDiaForm
@@ -13,12 +13,17 @@ def registrar_venta(request):
         if venta_form.is_valid() and formset.is_valid():
             venta = venta_form.save(commit=False)
             venta.save()
+
             detalles = formset.save(commit=False)
             for detalle in detalles:
                 detalle.venta = venta
-                detalle.precio = detalle.producto.precio  # asignar precio automáticamente
+                if detalle.producto:   # ✅ solo si hay producto
+                    detalle.precio = detalle.producto.precio
                 detalle.save()
-            venta.calcular_total()
+
+
+            # si tienes un método para calcular el total, lo llamas aquí
+            # venta.calcular_total()
             return redirect('ventas:reporte_ventas')
     else:
         venta_form = VentaForm()
@@ -29,11 +34,6 @@ def registrar_venta(request):
         'formset': formset
     })
 
-
-def reporte_ventas(request):
-    from .models import Venta
-    ventas = Venta.objects.all().order_by('-fecha')
-    return render(request, 'ventas/reporte_ventas.html', {'ventas': ventas})
 
 
 # AJAX para obtener precio del producto
@@ -47,8 +47,12 @@ def get_precio_producto(request):
 
 
 
-def ventas_list(request):
-    form = FiltroDiaForm(request.GET or None)
+
+
+
+# Filtro de venta por día escogido
+def reporte_ventas(request):
+    form = FiltroDiaForm(request.GET)
     detalles = DetalleVenta.objects.all()
 
     if form.is_valid():
@@ -59,7 +63,8 @@ def ventas_list(request):
             # Filtramos los detalles asociados a esas ventas
             detalles = DetalleVenta.objects.filter(venta__in=ventas)
 
-    return render(request, 'ventas/ventas_list.html', {
+    return render(request, 'ventas/reporte_ventas.html', {
         'form': form,
         'detalles': detalles
     })
+

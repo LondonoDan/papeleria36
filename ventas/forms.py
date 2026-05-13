@@ -25,6 +25,15 @@ class DetalleVentaForm(forms.ModelForm):
         )
     }
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['precio'].required = False
+        self.fields['precio'].widget.attrs['readonly'] = True
+
+    # Solo asignar precio si la instancia tiene producto
+        if getattr(self.instance, "producto", None):
+            self.fields['precio'].initial = self.instance.producto.precio
+
 
 # Creamos un inline formset para DetalleVenta asociado a Venta.
 DetalleVentaFormSet = inlineformset_factory(
@@ -37,12 +46,10 @@ DetalleVentaFormSet = inlineformset_factory(
 )
 
 
-#Vista ventas 
+#Vista ventas - esto esta
 class FiltroDiaForm(forms.Form):
     dia = forms.DateField(
         required=False,
         widget=forms.DateInput(attrs={'type': 'date'}),
         label="Filtrar por día"
     )
-
-    

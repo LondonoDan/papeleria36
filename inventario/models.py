@@ -9,7 +9,7 @@ class Producto(models.Model):
     descripcion = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.nombre
+        return self.nombre,self.precio
     
 
 # Clase cuadre de caja con sus campos
@@ -66,3 +66,7 @@ class CuadreCaja(models.Model):
 
     def __str__(self):
         return f"Cuadre de {self.dia_cuadre or self.fecha.date()} - Total: {self.total_efectivo}"
+
+
+    
+        

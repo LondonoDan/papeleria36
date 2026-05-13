@@ -30,6 +30,15 @@ class DetalleVenta(models.Model):
     venta = models.ForeignKey(Venta, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE) 
     cantidad = models.IntegerField()
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    precio = models.DecimalField(max_digits=10, decimal_places=2)  # ✅ corregido
+
+    def subtotal(self):
+        return self.precio * self.cantidad
+
+    def __str__(self):
+        if self.producto_id:   # ✅ solo si hay producto asociado
+            return f"{self.producto.nombre} x {self.cantidad}"
+        return f"DetalleVenta sin producto (cantidad: {self.cantidad})"
+
 
 
