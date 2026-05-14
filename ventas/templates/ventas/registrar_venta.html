@@ -1,38 +1,421 @@
 {% load crispy_forms_tags %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/estiloVentas.css' %}">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Venta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'django_select2/django_select2.css' %}" rel="stylesheet">
+    <style>
+        body { background:#f8fafc; font-family:'Segoe UI',system-ui,sans-serif; color:#1e293b; }
+        .page-header { background:linear-gradient(135deg,#1e3a8a,#2563eb); color:white; padding:1.5rem 2rem; margin-bottom:2rem; }
+        .page-header h2 { font-size:1.5rem; font-weight:700; margin:0; }
+        .card { border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,.08); background:white; margin-bottom:1.25rem; }
+        .card-header { background:linear-gradient(135deg,#f1f5f9,#e2e8f0); border-bottom:1px solid #e2e8f0; border-radius:12px 12px 0 0 !important; padding:.85rem 1.25rem; font-weight:600; color:#334155; display:flex; align-items:center; gap:.5rem; }
+        #tabla-productos thead { background:linear-gradient(135deg,#1e3a8a,#2563eb); color:white; }
+        #tabla-productos thead th { padding:.75rem 1rem; font-weight:600; font-size:.85rem; border:none; }
+        #tabla-productos tbody tr:hover { background:#f8fafc; }
+        #tabla-productos td { padding:.65rem .85rem; vertical-align:middle; border-color:#e2e8f0; font-size:.9rem; }
+        .select2-container { width:100% !important; }
+        .form-control,.form-select { border-radius:8px; border-color:#cbd5e1; font-size:.88rem; padding:.45rem .75rem; }
+        .form-control:focus,.form-select:focus { border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,.12); }
+        input[readonly].form-control { background:#f1f5f9; color:#475569; cursor:not-allowed; }
+        .precio-cell,.subtotal-cell { font-weight:600; color:#1e40af; min-width:90px; }
+        .btn-remove-row { background:none; border:none; color:#94a3b8; padding:.25rem .4rem; border-radius:6px; cursor:pointer; }
+        .btn-remove-row:hover { color:#dc2626; background:#fee2e2; }
+        .resumen-card { position:sticky; top:1rem; }
+        .total-display { background:linear-gradient(135deg,#1e3a8a,#2563eb); color:white; border-radius:10px; padding:1rem 1.25rem; text-align:center; margin-bottom:1rem; }
+        .total-display .label { font-size:.8rem; opacity:.8; text-transform:uppercase; }
+        .total-display .amount { font-size:2rem; font-weight:800; }
+        .cambio-display { border-radius:10px; padding:.9rem 1.25rem; text-align:center; font-weight:700; font-size:1.1rem; }
+        .cambio-ok   { background:#dcfce7; color:#15803d; }
+        .cambio-warn { background:#fef9c3; color:#92400e; }
+        .cambio-err  { background:#fee2e2; color:#b91c1c; }
+        .resumen-row { display:flex; justify-content:space-between; padding:.35rem 0; border-bottom:1px dashed #e2e8f0; font-size:.88rem; }
+        .resumen-row:last-child { border-bottom:none; }
+        .resumen-row .val { font-weight:700; color:#1e40af; }
+        .btn-add { background:linear-gradient(135deg,#0ea5e9,#2563eb); color:white; border:none; border-radius:8px; padding:.55rem 1.1rem; font-size:.88rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:.4rem; }
+        .btn-add:hover { opacity:.9; }
+        .btn-submit { background:linear-gradient(135deg,#16a34a,#15803d); color:white; border:none; border-radius:10px; padding:.75rem 1.5rem; font-size:1rem; font-weight:700; width:100%; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:.5rem; margin-top:.75rem; }
+        .btn-submit:hover { opacity:.92; }
+        #empty-row td { text-align:center; color:#94a3b8; padding:2rem; font-style:italic; }
+        .descuento-badge { background:#fef3c7; color:#92400e; border-radius:6px; padding:.2rem .5rem; font-size:.8rem; font-weight:700; }
+    </style>
+</head>
+<body>
 
-<h2>Registrar Venta</h2>
-<a href="{% url 'home' %}">Regresar al inicio</a>
+<div class="page-header">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div>
+            <h2><i class="bi bi-cart-plus-fill me-2"></i>Registrar Venta</h2>
+            <small style="opacity:.8;">Complete los campos y agregue los productos</small>
+        </div>
+        <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-house-fill me-1"></i> Inicio
+        </a>
+    </div>
+</div>
+
+<div class="container-fluid px-4 pb-5">
 <form method="post" id="ventaForm">
-    {{ formset.management_form }} <!-- Permite que Django sepa cuántos formularios debe procesar al recibir el POST.-->
-    {% csrf_token %} <!-- token de seguridad-->
-    <div id="productos">
-        {% for form in formset %}
-            <div class="producto-form"> <!-- formulario productos,precio y cantidad-->
-                {{ form|crispy }}
+{% csrf_token %}
+{{ formset.management_form }}
+
+<div class="row g-3">
+
+    <!-- ═══ Columna principal ═══ -->
+    <div class="col-lg-8">
+
+        <!-- Datos generales -->
+        <div class="card">
+            <div class="card-header"><i class="bi bi-receipt"></i> Datos de la Venta</div>
+            <div class="card-body p-3">
+                <div class="row g-2">
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold" style="font-size:.83rem;">Método de Pago</label>
+                        {{ venta_form.metodo_pago }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold" style="font-size:.83rem;">Descuento (%)</label>
+                        {{ venta_form.descuento }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold" style="font-size:.83rem;">Descripción descuento</label>
+                        {{ venta_form.descripcion_descuento }}
+                    </div>
+                    <div style="display:none;">{{ venta_form.total }}</div>
+                </div>
             </div>
-            {{ venta_form|crispy }}<!-- formulario total-->
-        {% endfor %}
-    </div> 
-    <button type="button" id="addProducto" class="btn btn-info">Agregar Producto</button>
-    <button type="submit" class="btn btn-success">Registrar Venta</button>
+        </div>
+
+        <!-- Tabla de productos -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-box-seam"></i> Productos</span>
+                <button type="button" id="addProducto" class="btn-add">
+                    <i class="bi bi-plus-circle-fill"></i> Agregar Producto
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table mb-0" id="tabla-productos">
+                        <thead>
+                            <tr>
+                                <th style="width:38%">Producto</th>
+                                <th style="width:13%">Cantidad</th>
+                                <th style="width:16%">Precio Unit.</th>
+                                <th style="width:16%">Subtotal</th>
+                                <th style="width:10%">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productos-body">
+
+                            <tr id="empty-row">
+                                <td colspan="5">
+                                    <i class="bi bi-box2 me-2" style="font-size:1.3rem;"></i>
+                                    Sin productos. Haga clic en <strong>Agregar Producto</strong>.
+                                </td>
+                            </tr>
+
+                            {% for form in formset %}
+                            <tr class="fila-producto producto-form" data-index="{{ forloop.counter0 }}">
+                                {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                                <td>{{ form.producto }}</td>
+                                <td>{{ form.cantidad }}</td>
+                                <td class="precio-cell">{{ form.precio }}</td>
+                                <td class="subtotal-cell"><span class="subtotal-val">$ 0.00</span></td>
+                                <td>
+                                    {% if form.DELETE %}<div style="display:none;">{{ form.DELETE }}</div>{% endif %}
+                                    <button type="button" class="btn-remove-row">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══ Panel resumen ═══ -->
+    <div class="col-lg-4">
+        <div class="card resumen-card">
+            <div class="card-header"><i class="bi bi-calculator-fill"></i> Resumen de Venta</div>
+            <div class="card-body p-3">
+
+                <div class="total-display">
+                    <div class="label">Total a Cobrar</div>
+                    <div class="amount" id="display-total">$ 0.00</div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="resumen-row">
+                        <span>Subtotal bruto</span>
+                        <span class="val" id="display-subtotal">$ 0.00</span>
+                    </div>
+                    <div class="resumen-row">
+                        <span>Descuento <span class="descuento-badge" id="badge-desc">0%</span></span>
+                        <span class="val" id="display-descuento" style="color:#d97706;">- $ 0.00</span>
+                    </div>
+                    <div class="resumen-row fw-bold" style="font-size:.95rem;">
+                        <span>Total final</span>
+                        <span class="val" id="display-total2">$ 0.00</span>
+                    </div>
+                </div>
+
+                <hr class="my-2">
+
+                <label class="form-label fw-semibold" style="font-size:.84rem;">
+                    <i class="bi bi-cash-stack me-1 text-success"></i>Valor recibido del cliente
+                </label>
+                <div class="input-group mb-2">
+                    <span class="input-group-text" style="border-radius:8px 0 0 8px;font-weight:700;">$</span>
+                    <input type="number" id="valor-recibido" class="form-control"
+                           placeholder="0.00" min="0" step="0.01"
+                           style="border-radius:0 8px 8px 0;">
+                </div>
+
+                <div class="cambio-display cambio-warn" id="cambio-box">
+                    <i class="bi bi-info-circle me-1"></i>Ingrese el valor recibido
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="bi bi-check-circle-fill"></i> Registrar Venta
+                </button>
+
+                <div id="msg-error" class="alert alert-danger mt-2 d-none"
+                     style="font-size:.83rem;border-radius:8px;"></div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
 </form>
+<!-- mensaje cuando no hay stock disponible para ese producto agregado a la venta -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+</div>
 
-<hr>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{% static 'django_select2/django_select2.js' %}"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// Botón para agregar más productos
-$('#addProducto').click(function(){
-    var formIndex = $('#productos .producto-form').length;
-    var newForm = $('#productos .producto-form:first').clone(true);
-    newForm.find(':input').each(function(){
-        var name = $(this).attr('name').replace(/-\d+-/, '-' + formIndex + '-');
-        var id = 'id_' + name;
-        $(this).attr({'name': name, 'id': id}).val('');
+/* ─── URLs de Django ─── */
+const URL_PRECIO    = "{% url 'ventas:get_precio_producto' %}";
+const URL_PRODUCTOS = "{% url 'ventas:listar_productos' %}";
+
+/* ─── Formato moneda colombiana ─── */
+function fmt(n) {
+    return '$ ' + parseFloat(n || 0).toLocaleString('es-CO', {
+        minimumFractionDigits: 2, maximumFractionDigits: 2
     });
-    $('#productos').append(newForm);
-    $('#id_detalleventa_set-TOTAL_FORMS').val(formIndex+1);
+}
+
+/* ─── Activar Select2 con búsqueda AJAX en una fila ─── */
+function initSelect2(row) {
+    $(row).find('select[id*="producto"]').each(function () {
+        if ($(this).data('select2')) $(this).select2('destroy');
+
+        $(this).select2({
+            theme: 'bootstrap-5',
+            placeholder: 'Buscar producto...',
+            allowClear: true,
+            ajax: {
+                url: URL_PRODUCTOS,
+                dataType: 'json',
+                delay: 250,
+                data: params => ({ q: params.term || '' }),
+                processResults: data => ({
+                    results: (data.productos || []).map(p => ({ id: p.id, text: p.nombre }))
+                }),
+                cache: true,
+            },
+        });
+
+        /* Al seleccionar: traer precio automáticamente */
+        $(this).on('select2:select', function () {
+            const productoId = $(this).val();
+            const $row = $(this).closest('tr');
+            if (!productoId) return;
+            $.getJSON(URL_PRECIO, { producto_id: productoId }, function (data) {
+                if (data.precio) {
+                    $row.find('input[id*="precio"]').val(parseFloat(data.precio).toFixed(2));
+                    actualizarSubtotalFila($row);
+                    recalcularTotal();
+                }
+            });
+        });
+
+        $(this).on('select2:clear', function () {
+            const $row = $(this).closest('tr');
+            $row.find('input[id*="precio"]').val('');
+            $row.find('.subtotal-val').text('$ 0.00');
+            recalcularTotal();
+        });
+    });
+}
+
+/* ─── Subtotal por fila ─── */
+function actualizarSubtotalFila($row) {
+    const precio   = parseFloat($row.find('input[id*="precio"]').val())   || 0;
+    const cantidad = parseFloat($row.find('input[id*="cantidad"]').val()) || 0;
+    const sub = precio * cantidad;
+    $row.find('.subtotal-val').text(fmt(sub));
+    return sub;
+}
+
+/* ─── Recalcular total general ─── */
+function recalcularTotal() {
+    let subtotalBruto = 0;
+    $('.fila-producto:visible').each(function () {
+        if ($(this).find('input[type="checkbox"][id*="DELETE"]').is(':checked')) return;
+        subtotalBruto += actualizarSubtotalFila($(this));
+    });
+
+    const descPct   = parseFloat($('#id_descuento').val()) || 0;
+    const descMonto = subtotalBruto * (descPct / 100);
+    const total     = subtotalBruto - descMonto;
+
+    $('#display-subtotal').text(fmt(subtotalBruto));
+    $('#display-descuento').text('- ' + fmt(descMonto));
+    $('#display-total, #display-total2').text(fmt(total));
+    $('#badge-desc').text(descPct + '%');
+    $('#id_total').val(total.toFixed(2));   /* sincroniza campo oculto */
+
+    calcularCambio(total);
+}
+
+/* ─── Calcular cambio al cliente ─── */
+function calcularCambio(total) {
+    const recibido = parseFloat($('#valor-recibido').val()) || 0;
+    const $box = $('#cambio-box');
+
+    if (recibido === 0) {
+        $box.removeClass('cambio-ok cambio-err').addClass('cambio-warn')
+            .html('<i class="bi bi-info-circle me-1"></i>Ingrese el valor recibido');
+        return;
+    }
+    const cambio = recibido - total;
+    if (cambio >= 0) {
+        $box.removeClass('cambio-warn cambio-err').addClass('cambio-ok')
+            .html('<i class="bi bi-check-circle-fill me-1"></i>Cambio: <strong>' + fmt(cambio) + '</strong>');
+    } else {
+        $box.removeClass('cambio-warn cambio-ok').addClass('cambio-err')
+            .html('<i class="bi bi-exclamation-triangle-fill me-1"></i>Faltan: <strong>' + fmt(Math.abs(cambio)) + '</strong>');
+    }
+}
+
+/* ─── Agregar nueva fila de producto ─── */
+$('#addProducto').on('click', function () {
+    $('#empty-row').hide();
+    const idx = parseInt($('#id_detalleventa_set-TOTAL_FORMS').val());
+
+    const $newRow = $(`
+    <tr class="fila-producto producto-form" data-index="${idx}">
+        <td>
+            <input type="hidden" name="detalleventa_set-${idx}-id"
+                                 id="id_detalleventa_set-${idx}-id">
+            <select name="detalleventa_set-${idx}-producto"
+                    id="id_detalleventa_set-${idx}-producto"
+                    class="form-select">
+                <option value="">---------</option>
+            </select>
+        </td>
+        <td>
+            <input type="number" name="detalleventa_set-${idx}-cantidad"
+                   id="id_detalleventa_set-${idx}-cantidad"
+                   class="form-control" value="1" min="1">
+        </td>
+        <td class="precio-cell">
+            <input type="number" name="detalleventa_set-${idx}-precio"
+                   id="id_detalleventa_set-${idx}-precio"
+                   class="form-control" readonly placeholder="Automático">
+        </td>
+        <td class="subtotal-cell"><span class="subtotal-val">$ 0.00</span></td>
+        <td>
+            <input type="checkbox" name="detalleventa_set-${idx}-DELETE"
+                   id="id_detalleventa_set-${idx}-DELETE" style="display:none;">
+            <button type="button" class="btn-remove-row">
+                <i class="bi bi-trash3-fill"></i>
+            </button>
+        </td>
+    </tr>`);
+
+    $('#productos-body').append($newRow);
+    $('#id_detalleventa_set-TOTAL_FORMS').val(idx + 1);
+    initSelect2($newRow[0]);
+});
+
+/* ─── Eliminar fila ─── */
+$(document).on('click', '.btn-remove-row', function () {
+    const $row = $(this).closest('tr');
+    const $chk = $row.find('input[type="checkbox"][id*="DELETE"]');
+    if ($chk.length) { $chk.prop('checked', true); $row.hide(); }
+    else             { $row.remove(); }
+    if ($('#productos-body .fila-producto:visible').length === 0) $('#empty-row').show();
+    recalcularTotal();
+});
+
+/* ─── Eventos en tiempo real ─── */
+$(document).on('input', 'input[id*="cantidad"], input[id*="precio"]', function () {
+    actualizarSubtotalFila($(this).closest('tr'));
+    recalcularTotal();
+});
+$('#id_descuento').on('input change', recalcularTotal);
+$('#valor-recibido').on('input', function () {
+    calcularCambio(parseFloat($('#id_total').val()) || 0);
+});
+
+/* ─── Validación al enviar ─── */
+$('#ventaForm').on('submit', function (e) {
+    const $msg = $('#msg-error').addClass('d-none').text('');
+
+    if ($('#productos-body .fila-producto:visible').length === 0) {
+        e.preventDefault();
+        return $msg.removeClass('d-none').text('⚠️ Debe agregar al menos un producto.');
+    }
+    let faltaProducto = false, cantidadInvalida = false;
+    $('#productos-body .fila-producto:visible').each(function () {
+        if (!$(this).find('select[id*="producto"]').val()) faltaProducto = true;
+        if ((parseInt($(this).find('input[id*="cantidad"]').val()) || 0) < 1) cantidadInvalida = true;
+    });
+    if (faltaProducto) {
+        e.preventDefault();
+        return $msg.removeClass('d-none').text('⚠️ Todas las filas deben tener un producto seleccionado.');
+    }
+    if (cantidadInvalida) {
+        e.preventDefault();
+        $msg.removeClass('d-none').text('⚠️ Verifique que todas las cantidades sean mayores a 0.');
+    }
+});
+
+/* ─── Inicialización ─── */
+$(document).ready(function () {
+    $('.fila-producto').each(function () { initSelect2(this); });
+    if ($('#productos-body .fila-producto').length > 0) $('#empty-row').hide();
+    $('#id_metodo_pago').addClass('form-select');
+    $('#id_descuento, #id_descripcion_descuento').addClass('form-control');
+    recalcularTotal();
 });
 </script>
+
+</body>
+</html>

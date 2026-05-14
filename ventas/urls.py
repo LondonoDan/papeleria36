@@ -11,5 +11,5 @@ urlpatterns = [
     #path('api/total_ventas_qr/', views.total_ventas_qr_por_dia, name='total_ventas_qr_por_dia'),
     path('reporte/', views.reporte_ventas, name='reporte_ventas'),
     path('api/get_precio_producto/', views.get_precio_producto, name='get_precio_producto'),
-    
+    path('api/listar_productos/',     views.listar_productos,      name='listar_productos'),  # ← NUEVO
 ]

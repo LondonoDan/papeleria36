@@ -9,7 +9,7 @@ class Producto(models.Model):
     descripcion = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.nombre,self.precio
+        return self.nombre # permite que se filtren los campos en el detalle venta
     
 
 # Clase cuadre de caja con sus campos

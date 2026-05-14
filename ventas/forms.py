@@ -21,16 +21,14 @@ class DetalleVentaForm(forms.ModelForm):
             'producto': ModelSelect2Widget(
                 model=Producto,
                 search_fields=['nombre__icontains'],
- 
-        )
-    }
-        
+            )
+        }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['precio'].required = False
         self.fields['precio'].widget.attrs['readonly'] = True
 
-    # Solo asignar precio si la instancia tiene producto
         if getattr(self.instance, "producto", None):
             self.fields['precio'].initial = self.instance.producto.precio
 
@@ -41,7 +39,7 @@ DetalleVentaFormSet = inlineformset_factory(
     model=DetalleVenta,
     form=DetalleVentaForm,   # usamos el form personalizado
     fields=('producto', 'cantidad', 'precio'),
-    extra=1,   # al menos un formulario inicial
+    extra=0,   # al menos un formulario inicial
     can_delete=True
 )
 
