@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/estilosproductos.css' %}">
+
+<div class="crud-container">
+
+    <div class="crud-header">
+        <h1><i class="bi bi-trash3 me-2"></i>Eliminar Producto</h1>
+        <a href="{% url 'inventario:lista_productos' %}" class="btn-volver">
+            <i class="bi bi-arrow-left me-1"></i> Volver al listado
+        </a>
+    </div>
+
+    <div class="crud-card confirmar-card">
+        <div class="crud-card-header danger-header">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirmar eliminación
+        </div>
+        <div class="crud-card-body text-center">
+
+            <div class="producto-info">
+                <p>¿Estás seguro de que deseas eliminar este producto?</p>
+                <table class="tabla-confirmar">
+                    <tr>
+                        <th>Nombre</th>
+                        <td>{{ producto.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Precio</th>
+                        <td>$ {{ producto.precio }}</td>
+                    </tr>
+                    <tr>
+                        <th>Stock</th>
+                        <td>{{ producto.cantidad }} unidades</td>
+                    </tr>
+                    {% if producto.descripcion %}
+                    <tr>
+                        <th>Descripción</th>
+                        <td>{{ producto.descripcion }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+                <p class="advertencia">
+                    <i class="bi bi-exclamation-circle me-1"></i>
+                    Esta acción no se puede deshacer.
+                </p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="crud-actions justify-content-center">
+                    <a href="{% url 'inventario:lista_productos' %}" class="btn-cancelar">
+                        <i class="bi bi-x-circle me-1"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn-eliminar">
+                        <i class="bi bi-trash3-fill me-1"></i> Sí, eliminar
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

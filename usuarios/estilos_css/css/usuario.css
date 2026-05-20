@@ -1,0 +1,87 @@
+/* Fondo general */
+body {
+    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #334155;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+/* Encabezado */
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #7a3658;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .5rem;
+}
+
+/* Link de volver */
+a {
+    text-decoration: none;
+    color: #64748b;
+    font-size: .95rem;
+    transition: color .2s ease;
+}
+a:hover {
+    color: #9f5db4;
+}
+
+/* Caja del formulario */
+.formulario {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    padding: 2rem;
+    margin-top: 1.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeIn .6s ease;
+}
+
+/* Animación suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Campos del formulario */
+.form-label {
+    font-weight: 600;
+    font-size: .9rem;
+    color: #475569;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    padding: .7rem 1rem;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+.form-control:focus {
+    border-color: #9f5db4;
+    box-shadow: 0 0 0 3px rgba(159,93,180,.15);
+}
+
+/* Botón principal */
+.btn-success {
+    background: linear-gradient(135deg, #9f5db4, #7a3658);
+    border: none;
+    border-radius: 12px;
+    padding: .85rem;
+    font-size: 1rem;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+    transition: transform .2s ease, opacity .2s ease;
+}
+.btn-success:hover {
+    opacity: .95;
+    transform: translateY(-2px);
+}

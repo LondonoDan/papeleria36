@@ -26,9 +26,10 @@ INSTALLED_APPS = [
     
     'django_select2',        # Select2 para formularios
 
-    # Apps creadas por ti
+    # Apps creadas por mi
     'inventario',
     'ventas',
+    'usuarios',   # ← NUEVO
 
     # Formularios bonitos con Bootstrap
     'crispy_forms',
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'factubox.urls'
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'factubox.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Agrega aquí la carpeta de plantillas globales
+        'DIRS': [BASE_DIR / 'templates'],  # Agregar aquí la carpeta de plantillas globales
         'APP_DIRS': True,  # Esto permite que Django busque en cada app una carpeta 'templates'
         'OPTIONS': {
             'context_processors': [
@@ -93,11 +95,11 @@ DATABASES = {
 UNFOLD = {
     "SITE_TITLE": "Papelería36 🌸",
     "SITE_HEADER": "Panel de Administración",
-    "SITE_URL": "/",  # Puedes cambiarlo si tienes una vista principal
+    "SITE_URL": "/",  # cambiarlo si hay vista principal
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": True,
     "LOGIN": {
-        "image": None,  # Aquí puedes poner la URL de tu logo si tienes uno
+        "image": None,  # poner la URL del logo si hay uno
         "title": "Bienvenida a Papelería36 🌸",
         "subtitle": "Sistema de gestión de ventas e inventario",
     },
@@ -143,8 +145,9 @@ STATIC_URL = '/static/'
 import os
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "ventas", "estiloscss"),  # tu carpeta personalizada
-    os.path.join(BASE_DIR, "inventario", "estilosinventario")  # tu carpeta personalizada
+    os.path.join(BASE_DIR, "ventas", "estiloscss"),  # css ventas
+    os.path.join(BASE_DIR, "inventario", "estilosinventario"),  #css inventario
+    os.path.join(BASE_DIR, "usuarios", "estilos_css")  #css usuarios
 ]
 
 
@@ -154,3 +157,8 @@ STATICFILES_DIRS = [
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_URL = '/usuarios/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/usuarios/login/'

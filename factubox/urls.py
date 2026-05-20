@@ -3,8 +3,10 @@ from django.urls import path
 from django.http import HttpResponse
 from django.urls import path, include
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def home(request):
     return render(request, 'home.html') # Renderiza la plantilla de inicio
     
@@ -16,9 +18,8 @@ urlpatterns = [
     path('', home, name='home'),  # Página principal  # Esto hace que la página principal muestre un mensaje
     path('inventario/', include('inventario.urls')),  
     path('ventas/', include('ventas.urls')),
-    path('select2/', include('django_select2.urls')),  # Agrega esta línea
-    
-
+    path('select2/', include('django_select2.urls')), 
+    path('usuarios/',   include('usuarios.urls')),   # ← NUEVO
 ]
 
 

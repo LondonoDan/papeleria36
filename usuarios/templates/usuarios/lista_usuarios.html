@@ -1,0 +1,65 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/estiloListado.css' %}">
+
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+    <h1><i class="bi bi-people-fill me-2"></i>Gestión de Usuarios</h1>
+    <a href="{% url 'usuarios:crear_usuario' %}" class="btn btn-success">
+        <i class="bi bi-person-plus-fill me-1"></i> Crear Usuario
+    </a>
+</div>
+<a href="{% url 'home' %}">Regresar al inicio</a>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show mt-2">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in usuarios %}
+        <tr>
+            <td><strong>{{ u.username }}</strong></td>
+            <td>{{ u.get_full_name|default:"—" }}</td>
+            <td>{{ u.email|default:"—" }}</td>
+            <td>
+                {% if u.perfil.rol == 'administrador' %}
+                    <span class="badge bg-purple" style="background:#9f5db4!important;">
+                        👑 Administrador
+                    </span>
+                {% else %}
+                    <span class="badge bg-secondary">🛒 Vendedor</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'usuarios:editar_usuario' u.pk %}"
+                   class="btn btn-warning btn-sm">
+                    <i class="bi bi-pencil-fill"></i> Editar
+                </a>
+                {% if u != request.user %}
+                <a href="{% url 'usuarios:eliminar_usuario' u.pk %}"
+                   class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash3-fill"></i> Eliminar
+                </a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

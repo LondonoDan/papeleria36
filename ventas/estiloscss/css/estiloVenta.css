@@ -1,0 +1,215 @@
+
+/* ── Base ── */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Header ── */
+.page-header {
+    background: linear-gradient(135deg, #b15db4, #b78fce);
+    color: white;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.page-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* ── Cards ── */
+.card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    background: white;
+    margin-bottom: 1.25rem;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 12px 12px 0 0 !important;
+    padding: .85rem 1.25rem;
+    font-weight: 600;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* ── Tabla ── */
+#tabla-productos thead {
+    background: linear-gradient(135deg, #050505, #1a1a1b);
+    color: white;
+}
+
+#tabla-productos thead th {
+    padding: .75rem 1rem;
+    font-weight: 600;
+    font-size: .85rem;
+    border: none;
+}
+
+#tabla-productos tbody tr:hover { background: #f8fafc; }
+
+#tabla-productos td {
+    vertical-align: middle;
+    border-color: #e2e8f0;
+    font-size: .9rem;
+}
+
+/* ── Inputs ── */
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border-color: #cbd5e1;
+    font-size: .88rem;
+    padding: .45rem .75rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #eb25a9;
+    box-shadow: 0 0 0 3px rgba(235,37,169,.12);
+}
+
+input[readonly].form-control {
+    background: #f1f5f9;
+    color: #475569;
+    cursor: not-allowed;
+}
+
+/* ── Celdas precio / subtotal ── */
+.precio-cell,
+.subtotal-cell {
+    font-weight: 600;
+    color: #af1e9c;
+    min-width: 90px;
+}
+
+/* ── Botón eliminar fila ── */
+.btn-remove-row {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    padding: .25rem .4rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-remove-row:hover {
+    color: #dc2626;
+    background: #fee2e2;
+}
+
+/* ── Panel resumen ── */
+.resumen-card { position: sticky; top: 1rem; }
+
+.total-display {
+    background: linear-gradient(135deg, #781e8a, #7b25eb);
+    color: white;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.total-display .label {
+    font-size: .8rem;
+    opacity: .8;
+    text-transform: uppercase;
+}
+
+.total-display .amount {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+/* ── Filas resumen ── */
+.resumen-row {
+    display: flex;
+    justify-content: space-between;
+    padding: .35rem 0;
+    border-bottom: 1px dashed #e2e8f0;
+    font-size: .88rem;
+}
+
+.resumen-row:last-child { border-bottom: none; }
+
+.resumen-row .val {
+    font-weight: 700;
+    color: #1ea5af;
+}
+
+/* ── Badge descuento ── */
+.descuento-badge {
+    background: #fef3c7;
+    color: #92400e;
+    border-radius: 6px;
+    padding: .2rem .5rem;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+/* ── Caja cambio ── */
+.cambio-display {
+    border-radius: 10px;
+    padding: .9rem 1.25rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.cambio-ok   { background: #dcfce7; color: #15803d; }
+.cambio-warn { background: #fef9c3; color: #92400e; }
+.cambio-err  { background: #fee2e2; color: #b91c1c; }
+
+/* ── Botones ── */
+.btn-add {
+    background: linear-gradient(135deg, #5c5b8a, #2563eb);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: .55rem 1.1rem;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+.btn-add:hover { opacity: .9; }
+
+.btn-submit {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: .75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    margin-top: .75rem;
+}
+
+.btn-submit:hover { opacity: .92; }
+
+/* ── Fila vacía ── */
+#empty-row td {
+    text-align: center;
+    color: #94a3b8;
+    padding: 2rem;
+    font-style: italic;
+}

@@ -7,19 +7,8 @@ from .models import Producto
 from django.http import JsonResponse
 from ventas.models import Venta
 from django.db.models import Sum
-
-
-#Muestra el total de ventas por día escogido
-def total_ventas_por_dia(request):
-    """Retorna el total de ventas para la fecha dada en ?dia=YYYY-MM-DD"""
-    dia = request.GET.get('dia')  # '2025-02-26'
-    if not dia:
-        return JsonResponse({'total_ventas': 0})
-    
-    total = (Venta.objects
-             .filter(fecha__date=dia)
-             .aggregate(suma=Sum('total'))['suma'] or 0)
-    return JsonResponse({'total_ventas': float(total)})
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -43,6 +32,61 @@ def agregar_producto(request):
 def lista_productos(request):
     productos = Producto.objects.all()  # Recupera todos los productos
     return render(request, 'inventario/lista_productos.html', {'productos': productos})
+
+@login_required
+def editar_producto(request, pk):
+    if request.user.perfil.rol != 'administrador':
+        messages.error(request, 'Solo los administradores pueden editar productos.')
+        return redirect('inventario:lista_productos')
+
+    producto = get_object_or_404(Producto, pk=pk)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Producto '{producto.nombre}' actualizado correctamente.")
+            return redirect('inventario:lista_productos')
+    else:
+        form = ProductoForm(instance=producto)
+    return render(request, 'inventario/editar_producto.html', {
+        'form': form,
+        'producto': producto,
+    })
+
+@login_required
+def eliminar_producto(request, pk):
+    if request.user.perfil.rol != 'administrador':
+        messages.error(request, 'Solo los administradores pueden eliminar productos.')
+        return redirect('inventario:lista_productos')
+
+    producto = get_object_or_404(Producto, pk=pk)
+    if request.method == 'POST':
+        nombre = producto.nombre
+        producto.delete()
+        messages.success(request, f"Producto '{nombre}' eliminado correctamente.")
+        return redirect('inventario:lista_productos')
+    return render(request, 'inventario/eliminar_producto.html', {'producto': producto})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #CUADRE DE CAJA

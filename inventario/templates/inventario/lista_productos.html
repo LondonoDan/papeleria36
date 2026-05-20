@@ -4,31 +4,58 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/estiloListado.css' %}">
 <a href="{% url 'home' %}">Regresar al inicio</a>
-  <h1>Listado de Productos</h1>
-  {% if productos %}
+<h1>Listado de Productos</h1>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% if productos %}
     <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
-          <th>Descripción</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for producto in productos %}
-          <tr>
-            <td>{{ producto.id }}</td>
-            <td>{{ producto.nombre }}</td>
-            <td>{{ producto.precio }}</td>
-            <td>{{ producto.cantidad }}</td>
-            <td>{{ producto.descripcion }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Descripción</th>
+                <th>Acciones</th>  <!-- ← columna nueva -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.id }}</td>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.precio }}</td>
+                <td>{{ producto.cantidad }}</td>
+                <td>{{ producto.descripcion }}</td>
+                <!-- ← boton editar y eliminar -->
+                <td>
+                    {% if request.user.perfil.rol == 'administrador' %}
+                        <a href="{% url 'inventario:editar_producto' producto.pk %}"
+                            class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil-fill"></i> Editar
+                         </a>
+                        <a href="{% url 'inventario:eliminar_producto' producto.pk %}"
+                        class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash3-fill"></i> Eliminar
+                        </a>
+                    {% else %}
+                    <span class="text-muted" style="font-size:.82rem;">Sin permisos</span>
+                    {% endif %}
+                </td> 
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-  {% else %}
+{% else %}
     <p>No se encontraron productos.</p>
-  {% endif %}
+{% endif %}
+
 {% endblock %}

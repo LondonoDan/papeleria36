@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<h1><i class="bi bi-pencil-square me-2"></i>Editar Usuario: {{ usuario.username }}</h1>
+<a href="{% url 'usuarios:lista_usuarios' %}">← Volver al listado</a>
+<div style="max-width:500px; margin-top:1rem;">
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-warning mt-2">
+            <i class="bi bi-check-circle me-1"></i> Guardar Cambios
+        </button>
+    </form>
+</div>
+{% endblock %}
