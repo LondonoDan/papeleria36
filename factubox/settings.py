@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     # Apps creadas por mi
     'inventario',
     'ventas',
-    'usuarios',   # ← NUEVO
+    'usuarios',   
 
     # Formularios bonitos con Bootstrap
     'crispy_forms',
@@ -131,7 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 

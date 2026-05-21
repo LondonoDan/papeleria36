@@ -84,20 +84,20 @@ def listar_productos(request):
 
 
 # Filtro de venta por día escogido
-def reporte_ventas(request):
-    form = FiltroDiaForm(request.GET)
-    detalles = DetalleVenta.objects.all()
+def reporte_por_dia(request):
+    form = FiltroDiaForm(request.GET or None)
+    ventas = None
+    dia = None
 
     if form.is_valid():
-        dia = form.cleaned_data.get('dia')
-        if dia:
-            # Filtramos las ventas por fecha
-            ventas = Venta.objects.filter(fecha__date=dia)
-            # Filtramos los detalles asociados a esas ventas
-            detalles = DetalleVenta.objects.filter(venta__in=ventas)
+        dia = form.cleaned_data['dia']
+        ventas = Venta.objects.filter(
+            fecha__date=dia
+        ).prefetch_related('detalleventa_set__producto').order_by('id')
 
     return render(request, 'ventas/reporte_ventas.html', {
         'form': form,
-        'detalles': detalles
+        'ventas': ventas,
+        'dia': dia,
     })
 

@@ -1,0 +1,96 @@
+/* Fondo general */
+body {
+    background: linear-gradient(135deg, #e08bb6, #f9e0ec, #e686e1);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #334155;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Encabezado */
+h1 {
+    text-align: left;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #0c0c0c;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    width: fit-content;   /* ajusta al contenido */
+    margin: 0 auto;       /* centra horizontalmente */
+}
+
+
+/* Link de volver */
+a {
+    text-decoration: none;
+    color: #0c0c0c;
+    font-size: 1rem;
+    transition: color .2s ease;
+}
+a:hover {
+    color: #9f5db4;
+}
+
+/* Caja del formulario */
+.formulario {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    padding: 2.5rem;
+    margin-top: 2rem;
+    max-width: 2000px;
+    width: 90%;
+    animation: fadeIn .6s ease;
+}
+
+/* Animación suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Campos del formulario */
+.form-label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #475569;
+    margin-bottom: .3rem;
+}
+
+.form-control {
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+    width: 100%;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+.form-control:focus {
+    border-color: #9f5db4;
+    box-shadow: 0 0 0 4px rgba(159,93,180,.15);
+}
+
+/* Botón principal */
+.btn-success {
+    background: linear-gradient(135deg, #9f5db4, #7a3658);
+    border: none;
+    border-radius: 14px;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+    transition: transform .2s ease, opacity .2s ease;
+    color: white;
+    margin-top: 1rem;
+}
+.btn-success:hover {
+    opacity: .95;
+    transform: translateY(-3px);
+}
+

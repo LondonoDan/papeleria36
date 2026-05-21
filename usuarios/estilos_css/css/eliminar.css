@@ -1,0 +1,95 @@
+/* Fondo general */
+body {
+    background: linear-gradient(135deg, #f9e0ec, #e08bb6, #e686e1);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #334155;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Encabezado */
+h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #000000;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Link de volver */
+a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: color .2s ease;
+}
+a:hover {
+    color: #7a3658;
+}
+
+/* Caja de alerta */
+.alert-danger {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    padding: 2.5rem;
+    margin-top: 2rem;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    animation: fadeIn .6s ease;
+}
+
+/* Animación suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Texto dentro de la alerta */
+.alert-danger p {
+    font-size: 1rem;
+    color: #000000;
+    margin-bottom: 1rem;
+}
+.alert-danger strong {
+    color: #7a3658;
+}
+
+/* Botones */
+.btn {
+    border-radius: 12px;
+    padding: .9rem 1.4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+/* Botón cancelar */
+.btn-secondary {
+    background: linear-gradient(135deg, #94a3b8, #64748b);
+    color: white;
+    border: none;
+}
+.btn-secondary:hover {
+    opacity: .9;
+    transform: translateY(-2px);
+}
+
+/* Botón eliminar */
+.btn-danger {
+    background: linear-gradient(135deg, #ff6b6b, #c53030);
+    color: white;
+    border: none;
+}
+.btn-danger:hover {
+    opacity: .9;
+    transform: translateY(-2px);
+}

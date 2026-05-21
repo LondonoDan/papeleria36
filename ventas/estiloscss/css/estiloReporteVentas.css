@@ -1,13 +1,9 @@
 /* Estilos reporte de venta */
-
-
-
-
 /* estilos del fondo*/
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
-    color: #333;
+    color: #070707;
     margin: 0;
     padding: 0;
   }
@@ -25,9 +21,9 @@ a:hover {
 }
 
 /* Títulos */
-h1, h2 {
+h2 {
   text-align: center;
-  color: #d63384;
+  color: #000000;
   margin-bottom: 20px;
 }
 
@@ -85,7 +81,7 @@ table {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 table thead {
@@ -107,7 +103,7 @@ table tr:hover {
 p {
   text-align: center;
   font-style: italic;
-  color: #666;
+  color: #0c0c0c;
 }
 
 
@@ -133,7 +129,7 @@ button.btn-primary::after {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(120deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+  background: linear-gradient(120deg, rgba(8, 8, 8, 0.4), rgba(255,255,255,0));
   transition: left 0.5s ease;
 }
 

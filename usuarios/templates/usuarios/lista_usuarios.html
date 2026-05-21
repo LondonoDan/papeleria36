@@ -2,15 +2,15 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/estiloListado.css' %}">
+<link rel="stylesheet" href="{% static 'css/estiloListados.css' %}">
 
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
     <h1><i class="bi bi-people-fill me-2"></i>Gestión de Usuarios</h1>
     <a href="{% url 'usuarios:crear_usuario' %}" class="btn btn-success">
-        <i class="bi bi-person-plus-fill me-1"></i> Crear Usuario
+        <i class="bi bi-person-plus-fill me-1"></i> Usuario
     </a>
 </div>
-<a href="{% url 'home' %}">Regresar al inicio</a>
+<a href="{% url 'home' %}"><i class="bi bi-house-fill me-1"></i> Inicio</a>
 
 {% if messages %}
     {% for message in messages %}
@@ -39,7 +39,7 @@
             <td>{{ u.email|default:"—" }}</td>
             <td>
                 {% if u.perfil.rol == 'administrador' %}
-                    <span class="badge bg-purple" style="background:#9f5db4!important;">
+                    <span class="badge" >
                         👑 Administrador
                     </span>
                 {% else %}

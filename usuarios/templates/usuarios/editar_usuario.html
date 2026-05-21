@@ -3,6 +3,9 @@
 {% load static %}
 
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/editar.css' %}">
+
 <h1><i class="bi bi-pencil-square me-2"></i>Editar Usuario: {{ usuario.username }}</h1>
 <a href="{% url 'usuarios:lista_usuarios' %}">← Volver al listado</a>
 <div style="max-width:500px; margin-top:1rem;">

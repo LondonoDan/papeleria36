@@ -20,7 +20,7 @@ form {
 /* Título */
 h1 {
   text-align: center;
-  color: #d63384;
+  color: #000000;
   font-weight: 600;
   margin-bottom: 25px;
 }
@@ -28,7 +28,7 @@ h1 {
 /* Etiquetas */
 label {
   font-weight: 500;
-  color: #b30059;
+  color: #050505;
   margin-top: 10px;
 }
 
@@ -132,7 +132,7 @@ a {
   display: inline-block;
   margin: 15px 0;
   text-decoration: none;
-  color: #d63384;
+  color: #000000;
   font-weight: bold;
   transition: color 0.3s ease;
 }

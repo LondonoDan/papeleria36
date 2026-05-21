@@ -33,6 +33,8 @@ def lista_productos(request):
     productos = Producto.objects.all()  # Recupera todos los productos
     return render(request, 'inventario/lista_productos.html', {'productos': productos})
 
+
+#Editar productos
 @login_required
 def editar_producto(request, pk):
     if request.user.perfil.rol != 'administrador':
@@ -53,6 +55,8 @@ def editar_producto(request, pk):
         'producto': producto,
     })
 
+
+#Eliminar productos
 @login_required
 def eliminar_producto(request, pk):
     if request.user.perfil.rol != 'administrador':
