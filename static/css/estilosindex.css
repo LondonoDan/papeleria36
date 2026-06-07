@@ -7,10 +7,10 @@ header {
 }
 
 header h1 {
-  font-family: 'Playfair Display', serif; /* Fuente manuscrita elegante */
-  font-size: 48px;                     /* Grande y vistosa */
-  font-weight: 550;                   /* Negrita */
-  color: rgb(12, 12, 12);                       /* Texto negro */
+  
+  font-family: 'MiFuenteBonita', sans-serif;
+  font-size: 40px;
+  color: #000000;
   margin: 0;                          /* Quita márgenes extra */
   letter-spacing: 2px;                /* Espaciado entre letras */
 }
@@ -27,5 +27,12 @@ footer {
   border-top: 2px solid rgba(255,255,255,0.3);
 }
 
+
+
+@font-face {
+  font-family: 'MiFuenteBonita'; /* nombre que tú inventas */
+  src: url('../fonts/miFuente.woff2') format('truetype');
+
+}
 
 

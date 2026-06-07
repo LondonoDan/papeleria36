@@ -7,12 +7,10 @@
 
 <!-- Foto de perfil -->
 <div class="usuario">
-    <link rel="stylesheet" href="{% static 'css/estilosHome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/estiloHome.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <img src="{% static 'img/marcePerfil.jpg' %}" alt="Dani"> 
-    <span>{{ request.user.username }}</span>
-    
-    
+    <span>{{ request.user.username }}</span> 
 </div>
 
 <div class="admin-panel">
@@ -58,7 +56,19 @@
     <span id="mes-anio"></span>
     <button id="next">▶</button>
   </div>
-  <div class="calendario-grid" id="dias"></div>
+  <div class="calendario-grid">
+  <!-- Encabezados días abreviados -->
+  <div class="dia-nombre">Dom</div>
+  <div class="dia-nombre">Lun</div>
+  <div class="dia-nombre">Mar</div>
+  <div class="dia-nombre">Mié</div>
+  <div class="dia-nombre">Jue</div>
+  <div class="dia-nombre">Vie</div>
+  <div class="dia-nombre">Sáb</div>
+
+  <!-- Aquí va el contenedor de días -->
+  <div id="dias" style="display: contents;"></div>
+</div>
 </div>
 
 <script>
@@ -109,7 +119,10 @@
     renderCalendario(fechaActual);
   };
 
+  
+
   renderCalendario(fechaActual);
+
 </script>
 <!-- termina el calendario-->
 
@@ -137,17 +150,17 @@
 
 <!-- Mensaje de rol -->
     {% if request.user.perfil.rol == 'administrador' %}
-        <span style="background:#9f5db4; color:white; border-radius:20px; padding:.2rem .8rem; font-size:.8rem; font-weight:700;">
+        <span class="rol rol-admin">
             👑 Administrador
         </span>
     {% else %}
-        <span style="background:#0ea5e9; color:white; border-radius:20px; padding:.2rem .8rem; font-size:.8rem; font-weight:700;">
+        <span class="rol rol-vendedor">
             🛒 Vendedor
         </span>
     {% endif %}
 
     <!-- Botón cerrar sesión -->
-    <a href="{% url 'usuarios:logout' %}" style="background:#fee2e2; color:#b91c1c; border-radius:8px; padding:.3rem .8rem; font-size:.82rem; font-weight:600; text-decoration:none;">
+    <a href="{% url 'usuarios:logout' %}" class="logout-btn">
         <i class="bi bi-box-arrow-left me-1"></i> Cerrar sesión
     </a>
 </div>
