@@ -1,20 +1,25 @@
 /* Contenedor general */
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
-    color: #333;
+    font-family: 'PorkyBold', sans-serif;
+    color: #000000;
     margin: 0;
     padding: 0;
   }
 
+@font-face {
+  font-family: 'PorkyBold'; /* nombre que tú inventas */
+  src: url('../fonts/PorkyBold.woff2') format('truetype');
+}  
+
 /* Enlace de regreso */
 a {
   display: inline-block;
-  margin: 15px 0;
+  margin: 20px 0;
   text-decoration: none;
   color: #0c0c0c;
   font-weight: bold;
   transition: color 0.3s ease;
+  font-size: 20PX;
 }
 
 a:hover {
@@ -41,7 +46,7 @@ table {
 
 /* Encabezado */
 table thead {
-  background: #d63384;
+  background: linear-gradient(135deg, #f94eff, #4e3945);
   color: #fff;
 }
 

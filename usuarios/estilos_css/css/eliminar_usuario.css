@@ -1,6 +1,5 @@
 /* Fondo general */
 body {
-    background: linear-gradient(135deg, #f9e0ec, #e08bb6, #e686e1);
     font-family: 'Segoe UI', system-ui, sans-serif;
     color: #334155;
     margin: 0;
@@ -11,8 +10,14 @@ body {
     min-height: 100vh;
 }
 
+@font-face {
+  font-family: 'PorkyBold'; /* nombre que tú inventas */
+  src: url('/static/fonts/PorkyBold.woff2') format('truetype');
+}
+
 /* Encabezado */
 h1 {
+    font-family: 'PorkyBold', sans-serif;
     font-size: 2.2rem;
     font-weight: 700;
     color: #000000;
@@ -24,8 +29,8 @@ h1 {
 /* Link de volver */
 a {
     text-decoration: none;
-    color: #ffffff;
-    font-size: 1rem;
+    color: #000000;
+    font-size: 1.3rem;
     transition: color .2s ease;
 }
 a:hover {
@@ -34,7 +39,7 @@ a:hover {
 
 /* Caja de alerta */
 .alert-danger {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.363);
     backdrop-filter: blur(10px);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,.15);
@@ -59,7 +64,7 @@ a:hover {
     margin-bottom: 1rem;
 }
 .alert-danger strong {
-    color: #7a3658;
+    color: #ff0000;
 }
 
 /* Botones */
@@ -85,7 +90,7 @@ a:hover {
 
 /* Botón eliminar */
 .btn-danger {
-    background: linear-gradient(135deg, #ff6b6b, #c53030);
+    background: linear-gradient(135deg, #9f5db4, #7a3658);
     color: white;
     border: none;
 }

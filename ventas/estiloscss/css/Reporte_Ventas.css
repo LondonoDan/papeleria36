@@ -1,19 +1,16 @@
 /* Estilos reporte de venta */
 /* estilos del fondo*/
-body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
-    color: #070707;
-    margin: 0;
-    padding: 0;
-  }
+
 
 
 /* Enlace de regreso */
 a {
-  color: white;
-  padding: 1.5rem 2rem;
+  font-family: 'PorkyBold', sans-serif;
+  color: rgb(0, 0, 0);
+  padding: 2.5rem 2rem;
+  font-size: 1.5rem;
   margin-bottom: 2rem;
+  text-decoration: none;
 }
 
 a:hover {
@@ -22,16 +19,23 @@ a:hover {
 
 /* Títulos */
 h2 {
+  font-family: 'PorkyBold', sans-serif;
   text-align: center;
   color: #000000;
   margin-bottom: 20px;
+}
+
+@font-face {
+  font-family: 'PorkyBold'; /* nombre que tú inventas */
+  src: url('/static/fonts/PorkyBold.woff2') format('truetype');
+
 }
 
 /* Formulario */
 form {
   max-width: 400px;
   margin: 0 auto 30px auto;
-  padding: 20px;
+  padding: 45px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -39,11 +43,11 @@ form {
 
 form label {
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 form input {
-  padding: 8px 10px;
+  padding: 20px 20px;
   border: 1px solid #ddd;
   border-radius: 6px;
   transition: border-color 0.3s ease;
@@ -58,19 +62,19 @@ form input:focus {
 form button {
   margin-top: 10px;
   width: 100%;
-  padding: 10px;
-  background: #d63384;
+  padding: 15px;
+  background: linear-gradient(135deg, #781e8a, #7b25eb);
   color: #fff;
   border: none;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 form button:hover {
-  background: #c21875;
+  background: linear-gradient(135deg, #7b25eb, #781e8a);
 }
 
 /* Tabla de resultados */
@@ -85,14 +89,15 @@ table {
 }
 
 table thead {
-  background: #d63384;
-  color: #fff;
+  background: #f79ac8;
+  color: #0a0a0a;
 }
 
 table th, table td {
-  padding: 12px 15px;
+  padding: 20px 20px;
   text-align: center;
   border-bottom: 1px solid #eee;
+  font-size: 20px;
 }
 
 table tr:hover {
@@ -107,36 +112,4 @@ p {
 }
 
 
-/* estilo para el boton, cuando se pasa el mouse alumbra*/ 
-button.btn-primary {
-  background-color: #ec407a;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  transition: background-color 0.3s ease;
-}
 
-button.btn-primary::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(120deg, rgba(8, 8, 8, 0.4), rgba(255,255,255,0));
-  transition: left 0.5s ease;
-}
-
-button.btn-primary:hover::after {
-  left: 100%;
-}
-
-button.btn-primary:hover {
-  background-color: #d81b60;
-}

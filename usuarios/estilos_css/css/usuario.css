@@ -1,8 +1,6 @@
 /* Fondo general */
 body {
-    background: linear-gradient(135deg, #e08bb6, #f9e0ec, #e686e1);
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    color: #334155;
+    color: #0f0f0f;
     margin: 0;
     padding: 0;
     display: flex;
@@ -11,13 +9,19 @@ body {
     min-height: 100vh;
 }
 
+@font-face {
+  font-family: 'PorkyBold'; /* nombre que tú inventas */
+  src: url('/static/fonts/PorkyBold.woff2') format('truetype');
+}
+
 /* Encabezado */
 h1 {
+    font-family: 'PorkyBold', sans-serif;
     text-align: left;
-    font-size: 2.2rem;
+    font-size: 3.2rem;
     font-weight: 700;
     color: #0c0c0c;
-    margin-top: 2rem;
+    margin-top: 15rem;
     margin-bottom: 0.5rem;
     width: fit-content;   /* ajusta al contenido */
     margin: 0 auto;       /* centra horizontalmente */
@@ -28,7 +32,7 @@ h1 {
 a {
     text-decoration: none;
     color: #0c0c0c;
-    font-size: 1rem;
+    font-size: 1.5rem;
     transition: color .2s ease;
 }
 a:hover {
@@ -37,12 +41,12 @@ a:hover {
 
 /* Caja del formulario */
 .formulario {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.13);
     backdrop-filter: blur(10px);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,.15);
     padding: 2.5rem;
-    margin-top: 2rem;
+    margin-top: 5rem;
     max-width: 2000px;
     width: 90%;
     animation: fadeIn .6s ease;
@@ -57,9 +61,10 @@ a:hover {
 /* Campos del formulario */
 .form-label {
     font-weight: 600;
-    font-size: 1rem;
-    color: #475569;
+    font-size: 2rem;
+    color: #000000;
     margin-bottom: .3rem;
+    
 }
 
 .form-control {
@@ -69,6 +74,7 @@ a:hover {
     font-size: 1rem;
     width: 100%;
     transition: border-color .2s ease, box-shadow .2s ease;
+    margin-top: 2rem;
 }
 .form-control:focus {
     border-color: #9f5db4;

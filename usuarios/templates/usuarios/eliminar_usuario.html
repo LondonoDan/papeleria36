@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/eliminar.css' %}">
+<link rel="stylesheet" href="{% static 'css/eliminar_usuario.css' %}">
 <h1><i class="bi bi-trash3 me-2"></i>Eliminar Usuario</h1>
-<a href="{% url 'usuarios:lista_usuarios' %}">← Volver al listado</a>
+<a href="{% url 'usuarios:lista_usuarios' %}"><i class="bi bi-house-fill me-1"></i> Volver al listado</a>
 
 <div class="alert alert-danger mt-3" style="max-width:500px;">
     <p>¿Estás segura de que deseas eliminar al usuario <strong>{{ usuario.username }}</strong>?</p>

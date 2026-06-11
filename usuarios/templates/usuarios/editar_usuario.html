@@ -4,10 +4,10 @@
 
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/editar.css' %}">
+<link rel="stylesheet" href="{% static 'css/editar_usuario.css' %}">
 
 <h1><i class="bi bi-pencil-square me-2"></i>Editar Usuario: {{ usuario.username }}</h1>
-<a href="{% url 'usuarios:lista_usuarios' %}">← Volver al listado</a>
+<a href="{% url 'usuarios:lista_usuarios' %}"><i class="bi bi-house-fill me-1"></i>Volver al listado</a>
 <div style="max-width:500px; margin-top:1rem;">
     <form method="post">
         {% csrf_token %}

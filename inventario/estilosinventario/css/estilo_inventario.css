@@ -1,11 +1,16 @@
 /* Estilo general del formulario para el cuadre de caja */
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #e08bb6, #FFCCD3, #e686e1);
+    font-family: 'PorkyBold', sans-serif;
     color: #333;
     margin: 0;
     padding: 0;
   }
+
+   /* fuente dentro de los cuadros */
+@font-face {
+  font-family: 'PorkyBold'; /* nombre que tú inventas */
+  src: url('../fonts/PorkyBold.woff2') format('truetype');
+}
 
 form {
   background-color: #fff0f5;
@@ -53,11 +58,11 @@ input:focus {
 
 /* estilo para el boton, cuando se pasa el mouse alumbra*/ 
 button.btn-primary {
-  background-color: #ec407a;
+  background: linear-gradient(135deg, #f94eff, #4e3945);
   color: white;
   border: none;
-  padding: 10px 15px;
-  font-size: 15px;
+  padding: 25px 15px;
+  font-size: 17px;
   border-radius: 6px;
   cursor: pointer;
   width: 100%;
@@ -93,8 +98,8 @@ input[type="submit"] {
   background-color: #ec407a;
   color: white;
   border: none;
-  padding: 10px 15px;
-  font-size: 15px;
+  padding: 20px 15px;
+  font-size: 20px;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -135,4 +140,5 @@ a {
   color: #000000;
   font-weight: bold;
   transition: color 0.3s ease;
+  font-size: 20PX;
 }

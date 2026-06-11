@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/estiloReporteVentas.css' %}">
+<link rel="stylesheet" href="{% static 'css/Reporte_Ventas.css' %}">
 
 
 
@@ -18,13 +18,13 @@
     
 {% if dia %}
     <hr>
-    <h4>📅 {{ dia|date:"d/m/Y" }} — {{ ventas.count }} venta{% if ventas.count != 1 %}s{% endif %}</h4>
+    <h2>📅 {{ dia|date:"d/m/Y" }} — {{ ventas.count }} venta{% if ventas.count != 1 %}s{% endif %}</h4>
 
     {% if ventas %}
         {% for venta in ventas %}
         <div style="border: 1px solid #ccc; padding: 1rem; margin: 1rem 0; border-radius: 8px;">
             
-            <h5>Venta {{ forloop.counter }}</h5>
+            <h3>Venta {{ forloop.counter }}</h5>
             <p><strong>Método de pago:</strong> {{ venta.metodo_pago }}</p>
 
             <table>
